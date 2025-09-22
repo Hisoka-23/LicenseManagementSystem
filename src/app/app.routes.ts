@@ -1,14 +1,22 @@
 import { Routes } from '@angular/router';
+import { Login } from './pages/login/login';
+import { arthGuard } from './guards/arth-guard';
 
 export const routes: Routes = [
+    
     {
-        path: '',
-        redirectTo:'app',
-        pathMatch: 'full'
+        path:'',
+        redirectTo:'login',
+        pathMatch:'full'
+    },
+    {
+        path:'login',
+        component:Login
     },
     {
         path: 'app',
         loadComponent: () => import('./pages/portal-layout/portal-layout').then(m => m.PortalLayout),
+        //canActivate: [arthGuard],
         children:[
             {
                 path: '',

@@ -1,0 +1,59 @@
+<div id="main">
+	<div id="Header">
+		<header id="Header-main">
+			<nav id="navBar">
+				<img src="assets\img\zds_logo.png">
+			</nav>
+		</header>
+	</div>
+	<div id="content">
+	<!-- Body Start-->
+
+		<div id="body">
+			<div id="left">
+				<div id="text-center">
+					<h1>MEET YOUR FUTURE 
+						<br />
+						WITH ZDS Infotect System</h1>
+					<br />
+					<br />
+					<p>At ZDS Infotect, our endeavor is not to sell you yet another employee management product but help you with a completely customized solution and guide you in your management solution journey.</p>
+					<div id="image">
+						<img src="assets\img\investment_icon.png" alt=""/>
+					</div>
+				</div>
+			</div>
+			<div id="right">
+				<div id="card">
+				<!-- login form start -->
+					<div class="login-container">
+						<h2>Login</h2>
+						<form>
+							<div class="input-group">
+								<label for="username">Username or Email</label>
+								<input name="email" [(ngModel)]="loginObj.EmailId" type="text" id="username" name="username" required>
+							</div>
+							<div class="input-group">
+								<label for="password">Password</label>
+								<input name="password" [(ngModel)]="loginObj.Password" type="password" id="password" name="password" required>
+							</div>
+							<div class="options">
+							</div>
+							<button type="submit" (click)="onLogin()">Login</button>
+						</form>
+					</div>
+				<!-- login form end -->
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Body End-->
+	</div>
+	<div id="Footer">
+		<footer id="Footer-main">
+
+		</footer>
+	</div>
+</div>

@@ -1,1 +1,46 @@
-<p>support works!</p>
+<div class="mx-3 my-1 border-0 p-0">
+
+    <app-content-header title="Support" [subRoute]="title"></app-content-header>
+
+    <div class="d-flex align-items-center justify-content-end">
+        <button class="ms-1" mat-raised-button color="accent" (click)="openUserFormModal(EnquiryFormTemplate)">
+            <mat-icon aria-hidden="false" aria-label="icon"></mat-icon>
+            Add Support
+        </button>
+    </div>
+
+    <app-customer-list-table></app-customer-list-table>
+
+        <ng-template #EnquiryFormTemplate>
+        <div class="row">
+            <div class="col-12">
+                <div class="modal-header d-flex align-items-center justify-content-between">
+                    <h4 class="modal-title mb-0">Support</h4>
+                    <button type="button" class="btn-close close" aria-label="Close" (click)="closeUserModal()">
+                        <span aria-hidden="true" class="visually-hidden">&times;</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <app-tabs [tabsArray]="tabs" (onTabChange)="tabChange($event)"></app-tabs>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div *ngIf="activatedTabIndex === 0">
+                    <app-support-main></app-support-main>
+                </div>
+                
+                <div *ngIf="activatedTabIndex === 1">
+                    <app-support-product></app-support-product>
+                </div>
+
+                <div *ngIf="activatedTabIndex === 2">
+                    <app-support-follow-up></app-support-follow-up>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

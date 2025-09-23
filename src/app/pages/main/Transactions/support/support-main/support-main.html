@@ -1,0 +1,170 @@
+<form>
+    <div class="row g-4 mx-4">
+
+        <!-- input filde for Party Name -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Party Name <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['A', 'A.H Exports', 'A.R Solution', 'Aadharshila the s', 'Aakriti furnishers pvt. ltd.', 'AAMF']"
+                placeholder="Select Customer"
+            >
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Product SR. No. -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Product Sr. No. <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['']"
+                placeholder="Select an Option"
+            >
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Product -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Product <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Biometric Machine', 'Busy', 'Domain', 'edulib', 'edusys College', 'eduSys School Portral']"
+                placeholder="Select Product"
+            >
+            </ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Caller Name <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['']"
+                placeholder="Select an Option"
+            >
+            </ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Caller Designation <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                placeholder="Caller Designation"
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Calling No. <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                placeholder="Calling No."
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Call Date/Time <span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter DOB" 
+                formControlName="dob"
+                bsDatepicker
+                [bsConfig]="datePickerConfig"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Call Back No <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                placeholder="Calling No."
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Email ID <span class="error-color">*</span></label>
+            <input 
+                type="email"
+                placeholder="Calling No."
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Problem Reported <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                placeholder="Calling No."
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Duration(in Minutes)<span class="error-color">*</span></label>
+            <input 
+                type="time"
+                placeholder="Calling No."
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Status<span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Resolved','Pending', 'Forwarded']"
+                placeholder="Select Status"
+            >
+            </ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Frowarded To <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Javed']"
+                placeholder="Forwarded To"
+            >
+            </ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Closed Date <span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter DOB" 
+                formControlName="dob"
+                bsDatepicker
+                [bsConfig]="datePickerConfig"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Remark <span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control"
+                placeholder="Remark"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Closed By<span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Javed', 'Sourav', 'Sushil', 'Sj', 'Manish_aman', 'raj', 'Raj Dhawan', 'Adminact', 'angad']"
+            ></ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Send Email <span class="error-color">*</span></label>
+            <input 
+                type="checkbox"
+            >
+        </div>
+
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
+        </div>
+
+    </div>
+</form>

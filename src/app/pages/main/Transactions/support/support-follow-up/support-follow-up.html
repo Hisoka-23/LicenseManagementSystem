@@ -1,0 +1,47 @@
+<form>
+    <div class="row g-4 mx-3">
+
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Follow Date/Time<span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Follow Date/Time"
+            >
+        </div>
+
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Follow By<span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Customer', 'Party']"
+                placeholder="Follow By"
+            ></ngx-select>
+        </div>
+
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Remarks<span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Remarks"
+            >
+        </div>
+
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Follow By<span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Javed']"
+                placeholder="Follow By"
+            >
+            </ngx-select>
+        </div>
+
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
+        </div>
+
+    </div>
+</form>

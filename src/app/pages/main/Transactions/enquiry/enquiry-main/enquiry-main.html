@@ -15,7 +15,180 @@
 
         <!-- input filde for -->
         <div class="form-group col-xl-4 col-sm-4 col-12">
-            <label><span class="error-color">*</span></label>
+            <label>Party Name <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Career Convent College', 'City MOntesson Inter College', 'Dayanand Bal Mandir', 'Dewan Public School', 'J.P Academy', 'Modern Public School', 'Rishabh Academy', 'St.Joseph School']"
+                placeholder="Select Party"
+            ></ngx-select>
+        </div>
+
+        <!-- input filde Series -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Series <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['ENQ']"
+                placeholder="Select Series"
+            >
+        </ngx-select>
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Source <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Enq No -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Enq No <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['ENQ00372']"
+                placeholder="Select Series"
+            >
+        </ngx-select>
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Remarks <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Contact Person <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Contact No <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Email ID <span class="error-color">*</span></label>
+            <input 
+                type="email"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Sales Exective <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Javed', 'Sourav', 'Sushil', 'SJ', 'Manish_aman']"
+                placeholder="Sales Exective"
+            ></ngx-select>
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Enquiry Details <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Remarks <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Source"
+            >
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Status <span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Dropped', 'Funnel', 'Mature']"
+                placeholder="Status"
+            ></ngx-select>
+        </div>
+
+        <!-- input filde Source -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Follow-up Req. <span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Yes', 'No']"
+                placeholder="Follow-up"
+            ></ngx-select>
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Follow-up Date <span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter Sale Date" 
+                bsDatepicker
+                [bsConfig]="datePickerConfig"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Bill No.(if Matured)<span>*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Bill NO.">
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Bill Date<span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter Sale Date" 
+                bsDatepicker
+                [bsConfig]="datePickerConfig"
+            >
+        </div>
+
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Send Mail<span class="error-color">*</span></label>
+            <input 
+                type="checkbox"
+                class="form-group"
+            >
+        </div>
+
+        <!-- Add Follup  -->
+
+        <!-- Send Follup -->
+
+        <!-- Cancel -->
+
+        <!-- save buttom -->
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button class="ms-1" mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
         </div>
     </div>
 </form>

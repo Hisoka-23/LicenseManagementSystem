@@ -5,15 +5,15 @@ import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker
 import { NgxSelectModule } from "ngx-select-ex";
 
 @Component({
-  selector: 'app-enquiry-main',
+  selector: 'app-support-main',
   standalone: true,
-  imports: [BsDatepickerModule, NgxSelectModule, MatButton, MatIcon],
-  templateUrl: './enquiry-main.html',
-  styleUrl: './enquiry-main.css'
+  imports: [NgxSelectModule, BsDatepickerModule, MatButton, MatIcon],
+  templateUrl: './support-main.html',
+  styleUrl: './support-main.css'
 })
-export class EnquiryMain {
+export class SupportMain {
 
-  datePickerConfig: Partial<BsDatepickerConfig> = Object.assign(
+    datePickerConfig: Partial<BsDatepickerConfig> = Object.assign(
     {},
     {
       containerClass: 'theme-dark-blue',

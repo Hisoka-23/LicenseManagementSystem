@@ -11,6 +11,13 @@ import { AppEditCustomer } from "./app-edit-customer/app-edit-customer";
 import { Tabs } from "../../reusable/tabs/tabs";
 import { NgIf } from '@angular/common';
 import { EditCustomerMisc } from "./edit-customer-misc/edit-customer-misc";
+import { ProductInfo } from "./product-info/product-info";
+import { DeviceInfo } from "./device-info/device-info";
+import { CustomerInfo } from "./customer-info/customer-info";
+import { CompanyInfo } from "./company-info/company-info";
+import { Purchanse } from "./purchanse/purchanse";
+import { Amc } from "./amc/amc";
+import { Remarke } from "./remarke/remarke";
 
 
 @Component({
@@ -25,7 +32,14 @@ import { EditCustomerMisc } from "./edit-customer-misc/edit-customer-misc";
     AppEditCustomer,
     Tabs,
     NgIf,
-    EditCustomerMisc
+    EditCustomerMisc,
+    ProductInfo,
+    DeviceInfo,
+    CustomerInfo,
+    CompanyInfo,
+    Purchanse,
+    Amc,
+    Remarke
 ],
   providers:[BsModalService],
   templateUrl: './customer.html',
@@ -49,8 +63,13 @@ export class Customer implements OnInit {
   //tabs: string[] = ['Main', 'Misc. Infomation'];
 
   tabs:any = [
-    { label: 'Main', icon: 'fa-solid fa-pencil' }, // using FontAwesome
-    { label: 'Misc. Information', icon: 'fa-solid fa-pen-nib' }
+    { label: 'Product Info', icon: 'fa-solid fa-pencil' }, // using FontAwesome
+    { label: 'Device Info', icon: 'fa-solid fa-pen-nib' },
+    { label: 'Customer', icon: 'fa-solid fa-pen-nib' },
+    { label: 'Company', icon: 'fa-solid fa-pen-nib' },
+    { label: 'Purchase', icon: 'fa-solid fa-pen-nib' },
+    { label: 'AMC', icon: 'fa-solid fa-pen-nib' },
+    { label: 'Remarks', icon: 'fa-solid fa-pen-nib' }
   ];
 
   activatedTabIndex: number = 0;

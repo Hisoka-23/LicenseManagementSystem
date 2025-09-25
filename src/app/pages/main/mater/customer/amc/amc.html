@@ -1,0 +1,67 @@
+<form>
+    <div class="row g-4 mx-4">
+        <!-- input filde for Amc start Date  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Amc Start Date <span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter Amc start Date"
+                bsDatepicker
+                [bsConfig]="datePickerConfig" 
+            >
+        </div>
+
+        <!-- Ninth row -->
+        <!-- input filde for Amc End-->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Amc End <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Purchased From"
+                bsDatepicker
+                [bsConfig]="datePickerConfig" 
+            >
+        </div>
+
+        <!-- input filde for Status -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Status <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['Active', 'De-Active', 'Expire']"
+                placeholder="Selet Status">
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Amc Company Alwd  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Comp Alwd <span class="error-color">*</span></label>
+            <input 
+                type="number" 
+                class="form-control" 
+                placeholder="Enter Comp Alwd" 
+            >
+        </div>
+
+        <!-- Tenth row -->
+        <!-- input filde for Emp Alwd-->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Emp Alwd <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Enter Purchased From"
+            >
+        </div>
+
+        <!-- input filde for Grace Pmt Days -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Grace Pmt Days <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Enter Grace Pmt Days">
+        </div>
+    </div>
+</form>

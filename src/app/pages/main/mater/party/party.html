@@ -10,17 +10,19 @@
         </button>
     </div>
 
-    <div class="col-md-12 p-0 mb-3 mt-1" style="width: auto; display: flex; align-items: center; justify-content: center;">
+    <div class="col-md-12 p-0 mb-3 mt-2" style="width: 100%; display: flex; align-items: center; justify-content: center;">
         <ngx-datatable
             class="material"
             [rows]="partys()"
-            [columnMode]="ColumnMode.force"
+            [columnMode]="ColumnMode.standard"
             [headerHeight]="50"
             [footerHeight]="50"
-            rowHeight="auto"
+            [rowHeight]="50"
+            [scrollbarV]="true"
+            style="height: 455px;"
             [count]="partys().length"
             [offset]="0"
-            [limit]="6"
+            [limit]="8"
             (page)="onPageChange($event)"
             (sort)="onSortChange($event)"
         >

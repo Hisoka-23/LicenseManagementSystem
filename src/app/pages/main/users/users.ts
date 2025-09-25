@@ -1,5 +1,5 @@
 import { MatIconModule } from '@angular/material/icon';
-import { Component, inject, input, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, signal, TemplateRef, ViewChild, viewChild } from '@angular/core';
 import { ContentHeader } from '../../../widgets/content-header/content-header';
 import { ColumnMode, DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { USERS } from '../../../mock-data/users.mock';
@@ -30,7 +30,7 @@ import { EditUser } from "./components/edit-user/edit-user";
 })
 export class Users implements OnInit {
 
-  table = viewChild<DatatableComponent>(DatatableComponent);
+  tableSignal = viewChild<DatatableComponent>(DatatableComponent);
 
   title = 'Users';
 
@@ -88,7 +88,7 @@ export class Users implements OnInit {
 
     this.users.set(filterData);
 
-    this.table()!.offset = 0;
+    this.tableSignal()!.offset = 0;
 
   }
 
@@ -189,6 +189,16 @@ export class Users implements OnInit {
       users.map((user) => (user.id == updateUserData.id ? updateUserData : user))
     );
     this.closeUserModal();
+  }
+
+  @ViewChild('table') table!: DatatableComponent;
+  @ViewChild('tableContainer', { read: ElementRef }) tableContainer!: ElementRef;
+
+  ngAfterViewInit() {
+    const resizeObserver = new ResizeObserver(() => {
+      this.table?.recalculate();
+    });
+    resizeObserver.observe(this.tableContainer.nativeElement);
   }
 
 }

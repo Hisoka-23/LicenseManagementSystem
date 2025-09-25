@@ -1,0 +1,60 @@
+<form>
+    <div class="row g-4 mx-4">
+        <!-- First row -->
+        <!-- input filde for Select Dealers -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Select Delers <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['techni Solutions', 'CORRIGO TECHNOLOGIES', 'Reder Technovision PVT. LTD.', 'Pioneer System', 'Tally Arena', 'R.V System']"
+                placeholder="Select Dealer" >
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Product  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Product<span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
+                placeholder="Select Product" >
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Model  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Model<span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
+                placeholder="Select Model">
+            </ngx-select>
+        </div>
+
+        <!-- Second row -->
+        <!-- input filde for Select License -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>License Type <span class="error-color">*</span></label>
+            <ngx-select
+                [items]="['techni Solutions', 'CORRIGO TECHNOLOGIES', 'Reder Technovision PVT. LTD.', 'Pioneer System', 'Tally Arena', 'R.V System']"
+                placeholder="Select License Type"></ngx-select>
+        </div>
+
+        <!-- input filde for Lock Type  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Lock Type<span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
+                placeholder="Select Lock Type">
+
+            </ngx-select>
+        </div>
+
+        <!-- input filde for Model  -->
+        <div class="form-group col-xl-4 col-sm-4 col-12">
+            <label>Payment Status<span class="error-color">*</span></label>
+            <ngx-select 
+                [items]="['Yes', 'NO']" 
+                placeholder="Select Payment Status" >
+
+            </ngx-select>
+        </div>
+    </div>
+</form>

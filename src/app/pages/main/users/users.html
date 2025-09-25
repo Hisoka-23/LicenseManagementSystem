@@ -2,7 +2,6 @@
 
     @if (!isCard) {
         <app-content-header title="title" [subRoute]="title"></app-content-header>
-
     }
 
     <div class="d-flex align-items-center justify-content-end">
@@ -34,7 +33,7 @@
         </button>
     </div>
 
-    <div class="col-md-12 mb-3 mt-1">
+    <div #tableContainer class="col-md-12 mb-3 mt-1">
 
         <ngx-datatable 
             #table class="material rounded" 
@@ -53,7 +52,7 @@
         >
             <!-- [style.height.ps]='400' -->
             <!-- Zero Column photo -->
-            <ngx-datatable-column prop="photo">
+            <ngx-datatable-column prop="photo" [width]="90">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">PHOTO</span>
 
@@ -69,7 +68,7 @@
             </ngx-datatable-column>
 
             <!-- First Column name -->
-            <ngx-datatable-column prop="name" [sortable]="true">
+            <ngx-datatable-column prop="name" [sortable]="true" [width]="isCard() ? 100 : 150">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">Name</span>
 
@@ -85,7 +84,7 @@
             </ngx-datatable-column>
 
             <!-- Second Column dob & gender -->
-            <ngx-datatable-column prop="dob" [sortable]="true">
+            <ngx-datatable-column prop="dob" [sortable]="true" [width]="isCard() ? 100 : 150">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">GENDER & DOB</span>
 
@@ -104,7 +103,7 @@
             </ngx-datatable-column>
 
             <!-- Third Column email -->
-            <ngx-datatable-column prop="email" [sortable]="true">
+            <ngx-datatable-column prop="email" [sortable]="true" [width]="isCard() ? 150 : 200">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">EMAIL</span>
 
@@ -120,7 +119,7 @@
             </ngx-datatable-column>
 
             <!-- Fourth Column phone -->
-            <ngx-datatable-column prop="phone" [sortable]="true">
+            <ngx-datatable-column prop="phone" [sortable]="true" [width]="isCard() ? 100 : 150">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">PHONE</span>
 
@@ -136,7 +135,7 @@
             </ngx-datatable-column>
 
             <!-- Fifth Column addres -->
-            <ngx-datatable-column prop="address" [sortable]="true">
+            <ngx-datatable-column prop="address" [sortable]="true" [width]="isCard() ? 150 : 200">
                 <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
                     <span class="text-white fw-medium tableHeader">ADDRESS</span>
 
@@ -151,8 +150,10 @@
 
             </ngx-datatable-column>
 
+
+            <!-- frozenRight="true" -->
             <!-- Last Column Action edit & delete -->
-            <ngx-datatable-column frozenRight="true">
+            <ngx-datatable-column [width]="isCard() ? 120 : 170">
                 <ng-template ngx-datatable-header-template>
                     <span class="tableHeader">ACTION</span>
                 </ng-template>

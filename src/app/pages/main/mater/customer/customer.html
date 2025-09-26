@@ -202,32 +202,23 @@
             <div class="row">
                 <div *ngIf="activatedTabIndex === 0">
                     <!-- <app-app-edit-customer></app-app-edit-customer> -->
-                     <app-product-info></app-product-info>
+                     <app-main></app-main>
                 </div>
                 
                 <div *ngIf="activatedTabIndex === 1">
-                    <!-- <app-edit-customer-misc></app-edit-customer-misc> -->
-                     <app-device-info></app-device-info>
+                    <app-address></app-address>
                 </div>
 
                 <div *ngIf="activatedTabIndex === 2">
-                    <app-customer-info></app-customer-info>
-                </div>
-
-                <div *ngIf="activatedTabIndex === 3">
                     <app-company-info></app-company-info>
                 </div>
 
-                <div *ngIf="activatedTabIndex === 4">
-                    <app-purchanse></app-purchanse>
-                </div>
-
-                <div *ngIf="activatedTabIndex === 5">
+                <div *ngIf="activatedTabIndex === 3">
                     <app-amc></app-amc>
                 </div>
 
-                <div *ngIf="activatedTabIndex === 6">
-                    <app-remarke></app-remarke>
+                <div *ngIf="activatedTabIndex === 4">
+                    <app-edit-customer-misc></app-edit-customer-misc>
                 </div>
                 
             </div>

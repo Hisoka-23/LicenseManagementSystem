@@ -1,8 +1,18 @@
 <form>
     <div class="row g-4 mx-4">
-        <!-- Sixth row -->
+
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Company Name <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Company Phone"
+            >
+        </div>
+
+        <!-- First row -->
         <!-- input filde for Company Phone-->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Company Phone <span class="error-color">*</span></label>
             <input 
                 type="number"
@@ -12,7 +22,7 @@
         </div>
 
         <!-- input filde for Company Email -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Company Email <span class="error-color">*</span></label>
             <input 
                 type="email"
@@ -22,7 +32,7 @@
         </div>
 
         <!-- input filde for Contact Person  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Contact Person <span class="error-color">*</span></label>
             <input 
                 type="text" 
@@ -31,15 +41,64 @@
             >
         </div>
 
-        <!-- Seventh row -->
+        <!-- Second row -->
         <!-- input filde for Designation-->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Designation <span class="error-color">*</span></label>
             <input 
                 type="text"
                 class="form-control"
                 placeholder="Enter Designation"
             >
+        </div>
+
+        <!-- input filde for Mobile -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Mobile <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Enter Number"
+            >
+        </div>
+
+        <!-- input filde for Email  -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Email ID <span class="error-color">*</span></label>
+            <input 
+                type="email" 
+                class="form-control" 
+                placeholder="Enter Email Id" 
+            >
+        </div>
+
+        <!-- Third row -->
+        <!-- input filde for Purchased From-->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Purchased From <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Purchased From"
+            >
+        </div>
+
+        <!-- input filde for Purchased Location -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Purchased Location <span class="error-color">*</span></label>
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter Location"
+            >
+        </div>
+
+        <!-- save buttom -->
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button class="ms-1" mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
         </div>
     </div>
 </form>

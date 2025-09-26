@@ -1,9 +1,10 @@
 <form>
     <div class="row g-4 mx-4">
-         <!-- Forth row -->
-         <!-- input filde for Customer Name -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
-            <label>Serial Number <span class="error-color">*</span></label>
+
+        <!-- Fourth row -->
+        <!-- input filde for Customer Name -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Serial Name <span class="error-color">*</span></label>
             <input 
                 type="text"
                 class="form-control"
@@ -11,29 +12,30 @@
             >
         </div>
 
+        <!-- First row -->
         <!-- input filde for Address 1 -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-12 col-sm-12 col-12">
             <label>Address 1 <span class="error-color">*</span></label>
-            <input 
-                type="text"
-                class="form-control"
-                placeholder="Enter Address"
-            >
+            <textarea
+                class="form-control" 
+                placeholder="Enter Address 2" 
+                rows="1"
+            ></textarea>
         </div>
 
         <!-- input filde for Address 2  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-12 col-sm-12 col-12">
             <label>Address 2<span class="error-color">*</span></label>
-            <input 
-                type="text" 
+            <textarea
                 class="form-control" 
-                placeholder="Enter Address" 
-            >
+                placeholder="Enter Address 2" 
+                rows="1"
+            ></textarea>
         </div>
 
-        <!-- Fifth row -->
+        <!-- Second row -->
         <!-- input filde for State-->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>State <span class="error-color">*</span></label>
             <input 
                 type="text"
@@ -43,7 +45,7 @@
         </div>
 
         <!-- input filde for City -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>City <span class="error-color">*</span></label>
             <input 
                 type="text"
@@ -53,13 +55,21 @@
         </div>
 
         <!-- input filde for PinCode  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Pin Code<span class="error-color">*</span></label>
             <input 
                 type="number" 
                 class="form-control" 
                 placeholder="Enter Pin Code" 
             >
+        </div>
+
+         <!-- save buttom -->
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button class="ms-1" mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
         </div>
     </div>
 </form>

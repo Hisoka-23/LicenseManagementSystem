@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgxSelectModule } from "ngx-select-ex";
 
 @Component({
-  selector: 'app-device-info',
+  selector: 'app-main',
   standalone: true,
-  imports: [BsDatepickerModule],
-  templateUrl: './device-info.html',
-  styleUrl: './device-info.css'
+  imports: [NgxSelectModule, BsDatepickerModule, MatButton, MatIcon],
+  templateUrl: './main.html',
+  styleUrl: './main.css'
 })
-export class DeviceInfo {
+export class Main {
 
   datePickerConfig: Partial<BsDatepickerConfig> = Object.assign(
     {},

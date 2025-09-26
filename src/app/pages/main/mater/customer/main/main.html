@@ -1,8 +1,7 @@
 <form>
     <div class="row g-4 mx-4">
         <!-- First row -->
-        <!-- input filde for Select Dealers -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+         <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Select Delers <span class="error-color">*</span></label>
             <ngx-select
                 [items]="['techni Solutions', 'CORRIGO TECHNOLOGIES', 'Reder Technovision PVT. LTD.', 'Pioneer System', 'Tally Arena', 'R.V System']"
@@ -11,7 +10,7 @@
         </div>
 
         <!-- input filde for Product  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Product<span class="error-color">*</span></label>
             <ngx-select 
                 [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
@@ -20,7 +19,7 @@
         </div>
 
         <!-- input filde for Model  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Model<span class="error-color">*</span></label>
             <ngx-select 
                 [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
@@ -29,8 +28,8 @@
         </div>
 
         <!-- Second row -->
-        <!-- input filde for Select License -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+         <!-- input filde for Select License -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>License Type <span class="error-color">*</span></label>
             <ngx-select
                 [items]="['techni Solutions', 'CORRIGO TECHNOLOGIES', 'Reder Technovision PVT. LTD.', 'Pioneer System', 'Tally Arena', 'R.V System']"
@@ -38,7 +37,7 @@
         </div>
 
         <!-- input filde for Lock Type  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Lock Type<span class="error-color">*</span></label>
             <ngx-select 
                 [items]="['Z-Pay', 'eduSys-school', 'eduSys-College', 'eduSys-Enquiry', 'eduLib', 'Busy' ]" 
@@ -48,7 +47,7 @@
         </div>
 
         <!-- input filde for Model  -->
-        <div class="form-group col-xl-4 col-sm-4 col-12">
+        <div class="form-group col-xl-6 col-sm-6 col-12">
             <label>Payment Status<span class="error-color">*</span></label>
             <ngx-select 
                 [items]="['Yes', 'NO']" 
@@ -56,5 +55,47 @@
 
             </ngx-select>
         </div>
+        
+        <!-- Thrid row -->
+         <!-- input filde for Serial No -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Serial Number <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Enter Serial Number"
+            >
+        </div>
+
+        <!-- input filde for Key Number -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Key Number <span class="error-color">*</span></label>
+            <input 
+                type="number"
+                class="form-control"
+                placeholder="Enter Serial Number"
+            >
+        </div>
+
+        <!-- input filde for Sale Date  -->
+        <div class="form-group col-xl-6 col-sm-6 col-12">
+            <label>Sale Date<span class="error-color">*</span></label>
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Enter Sale Date" 
+                bsDatepicker
+                [bsConfig]="datePickerConfig"
+            >
+        </div>
+
+        <!-- save buttom -->
+        <div class="box-footer mt-4 d-flex justify-content-center">
+            <button class="ms-1" mat-raised-button color="accent" type="submit">
+                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
+                SUBMIT
+            </button>
+        </div>
+
     </div>
 </form>

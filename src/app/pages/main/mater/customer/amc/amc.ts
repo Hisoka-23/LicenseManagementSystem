@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxSelectModule } from "ngx-select-ex";
 
 @Component({
   selector: 'app-amc',
   standalone: true,
-  imports: [BsDatepickerModule, NgxSelectModule],
+  imports: [MatButton, MatIcon, BsDatepickerModule, NgxSelectModule],
   templateUrl: './amc.html',
   styleUrl: './amc.css'
 })
 export class Amc {
 
-  datePickerConfig: Partial<BsDatepickerConfig> = Object.assign(
+   datePickerConfig: Partial<BsDatepickerConfig> = Object.assign(
     {},
     {
       containerClass: 'theme-dark-blue',

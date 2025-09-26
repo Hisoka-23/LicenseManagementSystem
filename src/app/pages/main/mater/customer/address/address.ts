@@ -3,12 +3,12 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-remarke',
+  selector: 'app-address',
   standalone: true,
-  imports: [MatIcon, MatButton],
-  templateUrl: './remarke.html',
-  styleUrl: './remarke.css'
+  imports: [MatButton, MatIcon],
+  templateUrl: './address.html',
+  styleUrl: './address.css'
 })
-export class Remarke {
+export class Address {
 
 }

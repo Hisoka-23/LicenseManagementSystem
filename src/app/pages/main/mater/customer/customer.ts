@@ -11,13 +11,10 @@ import { AppEditCustomer } from "./app-edit-customer/app-edit-customer";
 import { Tabs } from "../../reusable/tabs/tabs";
 import { NgIf } from '@angular/common';
 import { EditCustomerMisc } from "./edit-customer-misc/edit-customer-misc";
-import { ProductInfo } from "./product-info/product-info";
-import { DeviceInfo } from "./device-info/device-info";
-import { CustomerInfo } from "./customer-info/customer-info";
+import { Main } from "./main/main";
+import { Address } from "./address/address";
 import { CompanyInfo } from "./company-info/company-info";
-import { Purchanse } from "./purchanse/purchanse";
 import { Amc } from "./amc/amc";
-import { Remarke } from "./remarke/remarke";
 
 
 @Component({
@@ -33,13 +30,10 @@ import { Remarke } from "./remarke/remarke";
     Tabs,
     NgIf,
     EditCustomerMisc,
-    ProductInfo,
-    DeviceInfo,
-    CustomerInfo,
+    Main,
+    Address,
     CompanyInfo,
-    Purchanse,
-    Amc,
-    Remarke
+    Amc
 ],
   providers:[BsModalService],
   templateUrl: './customer.html',
@@ -63,13 +57,11 @@ export class Customer implements OnInit {
   //tabs: string[] = ['Main', 'Misc. Infomation'];
 
   tabs:any = [
-    { label: 'Product Info', icon: 'fa-solid fa-pencil' }, // using FontAwesome
-    { label: 'Device Info', icon: 'fa-solid fa-pen-nib' },
-    { label: 'Customer', icon: 'fa-solid fa-pen-nib' },
-    { label: 'Company', icon: 'fa-solid fa-pen-nib' },
-    { label: 'Purchase', icon: 'fa-solid fa-pen-nib' },
-    { label: 'AMC', icon: 'fa-solid fa-pen-nib' },
-    { label: 'Remarks', icon: 'fa-solid fa-pen-nib' }
+    { label: 'Main', icon: 'fa-solid fa-pencil' }, // using FontAwesome
+    { label: 'Address', icon: 'fa-solid fa-location-dot' },
+    { label: 'Company Info', icon: 'fa-solid fa-building' },
+    { label: 'AMC', icon: 'fa-solid fa-hammer' },
+    { label: 'Misc. Info', icon: 'fa-solid fa-pen-nib' },
   ];
 
   activatedTabIndex: number = 0;
@@ -94,7 +86,7 @@ export class Customer implements OnInit {
 
   openUserFormModal(template: TemplateRef<void>, User?: CustomerList){
     this.activatedTabIndex = 0; // or whichever is default
-    this.modalRef.set(this.modalService.show(template,{ class: 'modal-xl' }));
+    this.modalRef.set(this.modalService.show(template,{ class: 'modal-lg' }));
 
     // 🔑 ensures Angular immediately updates the view
     setTimeout(() => this.cd.detectChanges(), 0);

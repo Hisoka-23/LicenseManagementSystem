@@ -15,6 +15,7 @@ import { Main } from "./main/main";
 import { Address } from "./address/address";
 import { CompanyInfo } from "./company-info/company-info";
 import { Amc } from "./amc/amc";
+import { EditCustomerMisc2 } from "./edit-customer-misc-2/edit-customer-misc-2";
 
 
 @Component({
@@ -33,7 +34,8 @@ import { Amc } from "./amc/amc";
     Main,
     Address,
     CompanyInfo,
-    Amc
+    Amc,
+    EditCustomerMisc2
 ],
   providers:[BsModalService],
   templateUrl: './customer.html',
@@ -62,6 +64,7 @@ export class Customer implements OnInit {
     { label: 'Company Info', icon: 'fa-solid fa-building' },
     { label: 'AMC', icon: 'fa-solid fa-hammer' },
     { label: 'Misc. Info', icon: 'fa-solid fa-pen-nib' },
+    { label: 'Misc. Info-2', icon: 'fa-solid fa-pen-nib' }
   ];
 
   activatedTabIndex: number = 0;

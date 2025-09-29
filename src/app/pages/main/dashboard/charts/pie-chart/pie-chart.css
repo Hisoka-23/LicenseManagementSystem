@@ -1,0 +1,25 @@
+/* .my-chart{
+    max-width: 100%;
+    height: 100%;
+    overflow: hidden;
+} 
+
+.my-chart ::ng-deep svg {
+  width: 100% !important;    
+   height: 100% !important;
+}  */
+
+.my-chart {
+  width: 100%;
+  height: 50vh;        /* or a fixed px height like 360px */
+  min-width: 0;        /* critical inside flex/grid to prevent horizontal overflow */
+  min-height: 0;       /* prevents vertical overflow in constrained layouts */
+  overflow: visible;    /* hides any residual overflow without page scrollbars */
+  box-sizing: border-box;
+}
+
+/* optional: ensure SVG fills the parent box */
+.my-chart ::ng-deep svg {
+  width: 100% !important;
+  height: 100% !important;
+}

@@ -10,33 +10,15 @@ import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 })
 export class PieChart {
 
-  data: any[] = [
-      {
-    "name": "Germany",
-    "value": 8940000
-  },
-  {
-    "name": "USA",
-    "value": 5000000
-  },
-  {
-    "name": "France",
-    "value": 7200000
-  },
-    {
-    "name": "UK",
-    "value": 6200000
-  }
-  ];
   // view: any[] = [700, 400];
 
   // options
-  gradient: boolean = false;
+  gradient: boolean = true;
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
   legendPosition: any = 'below';
-
+  
   colorScheme = signal<any>({
         name: 'Sales report',
     selectable: true,
@@ -61,6 +43,25 @@ export class PieChart {
       };
     });
   }
+
+  data: any[] = [
+      {
+    "name": "Germany",
+    "value": 8940000
+  },
+  {
+    "name": "USA",
+    "value": 5000000
+  },
+  {
+    "name": "France",
+    "value": 7200000
+  },
+    {
+    "name": "UK",
+    "value": 6200000
+  }
+  ];
 
   getCSSVariable(name: string): string {
     return getComputedStyle(document.documentElement)

@@ -1,1 +1,55 @@
-<p>import-party works!</p>
+<div class="import">
+    <div class="import-container">
+        <h3 class="title" style="text-align: center; color: white; font-weight: 400; font-size: 27px; letter-spacing: normal;" >Import Parties From Excel Sheet</h3>
+
+        <form [formGroup]="importForm" (ngSubmit)="onImport()">
+            <div class="row g-4 mx-4">
+                <div class="form-group col-xl-6 col-sm-6 col-12">
+                    <label>Category <span class="error-color">*</span></label>
+                    <ngx-select [items]="['', '', '']" placeholder="Category"></ngx-select>
+
+                    <!-- <select formControlName="category">
+                        <option value="">--Select Category--</option>
+                        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                    </select> -->
+                </div>
+
+                <div class="form-group col-xl-6 col-sm-6 col-12">
+                    <label>Product</label>
+
+                    <ngx-select [items]="['', '', '']" placeholder="Product"></ngx-select>
+                    <!-- <select formControlName="product">
+                                <option value="">--Select Product--</option>
+                                <option *ngFor="let p of products" [value]="p">{{ p }}</option>
+                    </select> -->
+                </div>
+
+                <div class="form-group col-xl-12 col-sm-12 col-12">
+                    <label>Select File <span class="error-color">*</span></label>
+                    <input type="file" (change)="onFileSelected($event)" />
+                    <small style="margin-left: 10px;">Max Size (10 MB)</small>
+                    <button style="margin-left: 15px;" type="button" mat-raised-button color="accent"
+                        (click)="onUpload()">Upload</button>
+                </div>
+
+                <div class="form-group col-xl-12 col-sm-12 col-12">
+                    <label>Select Worksheet <span class="error-color">*</span></label>
+
+                    <select style="margin-left: 5px;" formControlName="worksheet">
+                        <option *ngFor="let ws of worksheets" [value]="ws">{{ ws }}</option>
+                    </select>
+
+                    <label style="margin-left: 5px;">
+                        <input type="radio" formControlName="mode" value="new" /> New Records
+                    </label>
+                    <label style="margin-left: 5px;">
+                        <input type="radio" formControlName="mode" value="update" /> Update Records
+                    </label>
+
+                    <button style="margin-left: 15px;" type="submit" mat-raised-button color="accent">Import</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

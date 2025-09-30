@@ -37,7 +37,9 @@
               "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/quill/dist/quill.bubble.css"
             ],
             "scripts": [
               "node_modules/admin-lte/dist/js/adminlte.min.js",

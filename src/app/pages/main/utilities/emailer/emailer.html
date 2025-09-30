@@ -1,1 +1,68 @@
-<p>emailer works!</p>
+<div class="emailer">
+    <div class="emailer-container">
+        <h3 class="title">Emailer</h3>
+
+        <div class="top-bar">
+            <button mat-raised-button color="accent" (click)="onMessageReport()">Message Report</button>
+        </div>
+
+        <form [formGroup]="emailForm" (ngSubmit)="onSendEmail()">
+            <!-- First Row -->
+            <div class="form-row">
+                <label>Recipient Group</label>
+                <button type="button" mat-raised-button color="accent" (click)="onSelectGroup()">Custom...</button>
+
+                <label>Product</label>
+                <select formControlName="product">
+                    <option value="All">All</option>
+                    <option *ngFor="let p of products" [value]="p">{{ p }}</option>
+                </select>
+
+                <a href="#" class="link">Advance Filter</a>
+                <button type="button" mat-raised-button color="accent" (click)="onFillList()">Fill List</button>
+
+                <label>Recipient</label>
+                <label><input type="radio" value="all" formControlName="recipientType" /> All</label>
+                <label><input type="radio" value="selected" formControlName="recipientType" /> Selected</label>
+                <button type="button" mat-raised-button color="accent" (click)="onShowList()">Show List</button>
+
+                <label>Status</label>
+                <select formControlName="status">
+                    <option>Activated</option>
+                    <option>Deactivated</option>
+                </select>
+            </div>
+
+            <!-- To & Subject -->
+            <div class="form-row">
+                <label>To</label>
+                <input type="text" formControlName="to" placeholder="Enter emails (; separated)" />
+            </div>
+
+            <div class="form-row">
+                <label>Message Type</label>
+                <select formControlName="messageType">
+                    <option>Email</option>
+                    <option>SMS</option>
+                </select>
+
+                <label>Subject</label>
+                <input type="text" formControlName="subject" placeholder="Enter subject" />
+            </div>
+
+            <!-- Message Body -->
+            <div class="form-row message-editor">
+                <label>Message</label>
+                <quill-editor formControlName="message" [modules]="quillConfig" [style]="{height: '250px'}"
+                    placeholder="Write your email here...">
+                </quill-editor>
+            </div>
+
+            <br>
+
+            <div class="form-actions">
+                <button type="submit" mat-raised-button color="accent">Send</button>
+            </div>
+        </form>
+    </div>
+</div>

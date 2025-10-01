@@ -8,7 +8,4 @@
   box-sizing: border-box;
 }
 
-.my-chart ::ng-deep svg {
-  width: 100% !important;
-  height: 100% !important;
-}
+

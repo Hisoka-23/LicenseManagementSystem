@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
+import { LegendPosition, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-pie-chart',
@@ -10,14 +10,15 @@ import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 })
 export class PieChart {
 
-  // view: any[] = [700, 400];
+  // view: [number, number] = [700, 400];
 
   // options
   gradient: boolean = true;
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
-  legendPosition: any = 'below';
+  //legendPosition: any = 'below';
+  legendPosition: LegendPosition = LegendPosition.Below; 
   
   colorScheme = signal<any>({
         name: 'Sales report',
@@ -43,6 +44,7 @@ export class PieChart {
       };
     });
   }
+
 
   data: any[] = [
       {

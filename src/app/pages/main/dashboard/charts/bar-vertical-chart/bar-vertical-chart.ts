@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
+import { LegendPosition, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-bar-vertical-chart',
@@ -12,16 +12,18 @@ export class BarVerticalChart {
 
   //  view: [number, number] = [600, 400];
   // options for the chart
-  showXAxis = true;
-  showYAxis = true;
-  gradient = true;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Country';
-  showYAxisLabel = true;
-  yAxisLabel = 'Sales';
-  timeline = true;
-  doughnut = true;
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  legendPosition: LegendPosition = LegendPosition.Right; 
+  // legendPosition: string = "right";
+  showXAxisLabel: boolean = true;
+  xAxisLabel:string = 'Country';
+  showYAxisLabel: boolean = true;
+  yAxisLabel: string = 'Sales';
+  timeline:boolean = true;
+  doughnut:boolean = true;
 
 
   // colorScheme = {

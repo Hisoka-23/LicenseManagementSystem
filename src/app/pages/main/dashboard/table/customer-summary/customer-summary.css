@@ -1,0 +1,57 @@
+#main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(8, 20, 40, 0.04);
+}
+
+.large-card {
+    min-height: 420px;
+}
+
+/* ngx-datatable styles tweaks */
+.ngx-table {
+    width: 100% !important;
+}
+
+.product-cell {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.product-cell .icon {
+    width: 36px;
+    height: 36px;
+    background: #eef6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.product-cell .p-name {
+    font-weight: 600;
+    color: #233042;
+}
+
+
+ngx-datatable /deep/ .ngx-datatable-header {
+    background: #ffffff;
+}
+
+ngx-datatable /deep/ .ngx-datatable-header-cell {
+    font-weight: 700;
+    color: #0b57d0;
+}
+
+.align {
+    align-items: end;
+}

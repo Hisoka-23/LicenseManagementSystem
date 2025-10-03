@@ -1,21 +1,37 @@
 <div class="container-fluid">
     <!--begin::Row-->
-    <div class="row g-3 mt-4">
+    <div class="row g-2 mt-1">
         <!--begin::Col-->
         <app-medium-box></app-medium-box>
         <!--end::Col-->
     </div>
-   <!-- Chart row -->
+
+    <!-- mian-row -->
+    <div class="row g-2">
+
+        <div class="col-lg-7 connectedSortable">
+            <app-customer-summary></app-customer-summary>
+        </div>
+
+        <div class="col-lg-5 connectedSortable">
+            <app-main-vertical-bar-chart></app-main-vertical-bar-chart>
+        </div>
+
+
+    </div>
+    <!-- main-row 1 -->
     <div class="row g-3 mt-2">
         <!-- Start col -->
         <div class="col-lg-6 connectedSortable">
-            <div class="card bg-gradient border-primary h-100">
+            <div class="card bg-gradient border-primary h-100" [class.collapsed]="collapsed1">
                 <div class="card-header">
                     <h3 class="card-title mb-0">Sales Value</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-primary btn-sm" data-lte-toggle="card-collapse">
-                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="toggleCard1()">
+                           <!-- show minus when expanded -->
+                            <i *ngIf="!collapsed1" class="bi bi-dash-lg"></i>
+                            <!-- show plus when collapsed -->
+                            <i *ngIf="collapsed1" class="bi bi-plus-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -31,13 +47,15 @@
 
         <!-- Start col -->
         <div class="col-lg-6">
-            <div class="card bg-gradient border-primary h-100">
+            <div class="card bg-gradient border-primary h-100" [class.collapsed]="collapsed2">
                 <div class="card-header">
                     <h3 class="card-title mb-0">Sales Value</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-primary btn-sm" data-lte-toggle="card-collapse">
-                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="toggleCard2()">
+                            <!-- show minus when expanded -->
+                            <i *ngIf="!collapsed2" class="bi bi-dash-lg"></i>
+                            <!-- show plus when collapsed -->
+                            <i *ngIf="collapsed2" class="bi bi-plus-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -48,7 +66,7 @@
                     </div>
                 </div>
 
-                 <!-- <div class="card-footer border-0">
+                <!-- <div class="card-footer border-0">
                     
                     <div class="row">
                         <div class="col-4 text-center">
@@ -73,6 +91,7 @@
         <!-- /.Start col -->
     </div>
 
+    <!-- main-row 2 -->
     <div class="row g-3 mt-2">
         <div class="col-lg-6 connectedSortable">
             <!-- User Datatable -->

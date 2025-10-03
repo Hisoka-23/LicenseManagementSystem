@@ -16,32 +16,32 @@ export class BarVerticalChart {
   showYAxis: boolean = true;
   gradient: boolean = true;
   showLegend: boolean = true;
-  legendPosition: LegendPosition = LegendPosition.Right; 
+  legendPosition: LegendPosition = LegendPosition.Right;
   // legendPosition: string = "right";
   showXAxisLabel: boolean = true;
-  xAxisLabel:string = 'Country';
+  xAxisLabel: string = 'Country';
   showYAxisLabel: boolean = true;
   yAxisLabel: string = 'Sales';
-  timeline:boolean = true;
-  doughnut:boolean = true;
+  timeline: boolean = true;
+  doughnut: boolean = true;
 
 
   // colorScheme = {
   //   domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
   // };
 
-    colorScheme = signal<any>({
-        name: 'Sales report',
+  colorScheme = signal<any>({
+    name: 'Sales report',
     selectable: true,
     group: ScaleType.Ordinal,
     domain: []
   });
 
-    ngOnInit(){
+  ngOnInit() {
     this.colorScheme.update(scheme => {
       return {
         ...scheme,
-        domain:[
+        domain: [
           '#9370DB',
           '#87CEFA',
           '#FA8072',
@@ -58,32 +58,32 @@ export class BarVerticalChart {
   //pie
   showLabels = true;
   // data goes here
-data = [
-  {
-    "name": "China",
-    "value": 2243772
-  },
-  {
-    "name": "USA",
-    "value": 1126000
-  },
-  {
-    "name": "Norway",
-    "value": 296215
-  },
-  {
-    "name": "Japan",
-    "value": 257363
-  },
-  {
-    "name": "Germany",
-    "value": 196750
-  },
-  {
-    "name": "France",
-    "value": 204617
-  }
-];
+  data = [
+    {
+      "name": "China",
+      "value": 2243772
+    },
+    {
+      "name": "USA",
+      "value": 1126000
+    },
+    {
+      "name": "Norway",
+      "value": 296215
+    },
+    {
+      "name": "Japan",
+      "value": 257363
+    },
+    {
+      "name": "Germany",
+      "value": 196750
+    },
+    {
+      "name": "France",
+      "value": 204617
+    }
+  ];
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));

@@ -1,0 +1,29 @@
+<div class="card large-card" >
+    <h3>Customer Renewal Summary Table</h3>
+    <!-- ngx-datatable -->
+    <ngx-datatable class="material ngx-table" [rows]="products" [columnMode]="ColumnMode.force" [headerHeight]="50"
+        [rowHeight]="42" [footerHeight]="0">
+
+
+        <ngx-datatable-column name="Product" prop="product" [flexGrow]="2">
+            <ng-template ngx-datatable-cell-template let-row="row">
+                <div class="product-cell">
+                    <div class="icon">{{ row.icon }}</div>
+                    <div class="p-name">{{ row.product }}</div>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column class="align" name="&lt; 0" prop="lt0" [width]="120" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column class="align" name="0-30 DAYS" prop="d0_30" [width]="120" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column class="align" name="31-60 DAYS" prop="d31_60" [width]="120" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column class="align" name="61+ DAYS LATE" prop="d61_plus" [width]="140" [flexGrow]="1">
+            <ng-template ngx-datatable-cell-template let-row="row">
+                <div [class.overdue]="row.d61_plus &gt; 0">{{ row.d61_plus }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+
+    </ngx-datatable>
+</div>

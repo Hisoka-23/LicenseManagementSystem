@@ -1,0 +1,21 @@
+/* Animate entire card height */
+.card {
+  overflow: hidden;
+  transition: max-height 0.7s ease;
+  max-height: 600px; /* adjust based on your chart size */
+}
+
+.card.collapsed {
+  max-height: 65px; /* just enough for header */
+}
+
+/* Animate card-body fade + slide */
+.card-body {
+  transition: opacity 0.5s ease, transform 0.7s ease;
+}
+
+.card.collapsed .card-body {
+  opacity: 0;
+  transform: translateY(-10px); /* slide up */
+  pointer-events: none;         /* disable interactions */
+}

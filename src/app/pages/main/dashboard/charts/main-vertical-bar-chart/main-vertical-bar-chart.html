@@ -1,0 +1,11 @@
+<div class="card side-card">
+    <h3>Transactions Summary (2024-2025)</h3>
+    <div class="total">Total Transactions<br /><span class="big">{{ totalTransactions }}</span></div>
+    <div class="my-chart" >
+        <!-- ngx-charts bar vertical -->
+        <ngx-charts-bar-vertical [results]="barChartData" [xAxis]="true" [yAxis]="true" [legend]="false"
+            [showXAxisLabel]="false" [showYAxisLabel]="false" [scheme]="colorScheme()" [gradient]="true"
+            [roundDomains]="true" [animations]="true" [barPadding]="8">
+        </ngx-charts-bar-vertical>
+    </div>
+</div>

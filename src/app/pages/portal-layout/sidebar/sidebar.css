@@ -46,3 +46,28 @@ aside {
     }
 
 }
+
+/* Sidebar styles */
+.app-sidebar {
+  transition: all 0.3s ease;
+}
+
+.nav-treeview {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.nav-item.menu-open > .nav-treeview {
+  max-height: 500px; /* enough space for submenu */
+  opacity: 1;
+}
+
+/* Rotate arrow on active */
+.nav-arrow {
+  transition: transform 0.3s ease;
+}
+.rotate-90 {
+  transform: rotate(90deg);
+}

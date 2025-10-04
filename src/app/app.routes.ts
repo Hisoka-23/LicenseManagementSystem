@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
-import { arthGuard } from './guards/arth-guard';
 
 export const routes: Routes = [
     
@@ -49,6 +48,13 @@ export const routes: Routes = [
                 loadComponent: () => 
                     import('./pages/main/mater/party/party').then(
                         m => m.Party
+                    )
+            },
+            {
+                path: 'products',
+                loadComponent: () => 
+                    import('./pages/main/mater/products/products').then(
+                        m => m.Products
                     )
             },
             {

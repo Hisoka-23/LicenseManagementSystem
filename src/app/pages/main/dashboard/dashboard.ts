@@ -26,16 +26,10 @@ import { MainVerticalBarChart } from "./charts/main-vertical-bar-chart/main-vert
 })
 export class Dashboard {
 
-  collapsed1 = false;
+  collapsed = false; 
 
-  collapsed2 = false;  
-
-  toggleCard1() {
-    this.collapsed1 = !this.collapsed1;
-  }
-
-  toggleCard2() {
-    this.collapsed2 = !this.collapsed2;
+  toggleCard() {
+    this.collapsed = !this.collapsed;
   }
 
 }

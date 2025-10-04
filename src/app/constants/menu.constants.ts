@@ -24,6 +24,11 @@ export const MENU_ITEMS = [
                 label: 'Party',
                 icon: 'fa-solid fa-people-line',
                 route: 'party',
+            },
+            {
+                label: 'Product',
+                icon: 'fa-solid fa-people-line',
+                route: 'products',
             }
         ]
     },

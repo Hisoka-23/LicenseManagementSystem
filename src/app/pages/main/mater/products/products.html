@@ -30,45 +30,31 @@
     </div>
 </div> -->
 
-<div class="col-md-12 p-0 mb-3 mt-1">
+<div class="mx-4 my-1 border-0" >
 
-    <ngx-datatable
-        #customer
-        class="material"
-        [rows]="apiResponse"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [rowHeight]="50"
-        [scrollbarV]="true"
-        style="height: 495px;"
-        [count]="apiResponse.length"
-        [offset]="0"
-        [limit]="7"
-        (page)="onPageChange($event)"
-        (sorts)="onSortChange($event)"
+    <div class="col-md-12 mb-2 mt-1" >
 
-    >
+        <ngx-datatable #customer class="material" [rows]="apiResponse" [columnMode]="ColumnMode.force"
+            [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="" false
+            [count]="apiResponse.length" [offset]="0" [limit]="9" (page)="onPageChange($event)"
+            (sorts)="onSortChange($event)" style="border-radius: 1.5%;">
 
-        <!-- Product Name -->
-        <ngx-datatable-column
-    *ngFor="let c of columnDefs"
-    [prop]="c.prop"
-    [name]="c.header"
-    [sortable]="c.sortable"
-    [width]="c.width"
-    >
+            <!-- Product Name -->
+            <ngx-datatable-column *ngFor="let c of columnDefs" [prop]="c.prop" [name]="c.header" [sortable]="c.sortable"
+                [width]="c.width">
 
-    <ng-template ngx-datatable-header-template>
-      <span class="tableHeader">{{ c.header }}</span>
-    </ng-template>
+                <ng-template ngx-datatable-header-template>
+                    <span class="tableHeader">{{ c.header }}</span>
+                </ng-template>
 
-    <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-      {{ value }}
-    </ng-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                    {{ value }}
+                </ng-template>
 
-  </ngx-datatable-column>
+            </ngx-datatable-column>
 
-    </ngx-datatable>
+        </ngx-datatable>
+
+    </div>
 
 </div>

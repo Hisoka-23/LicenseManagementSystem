@@ -1,56 +1,230 @@
-<!-- <div class="row">
-    <div class="col-8">
-        <div class="card">
-            <div class="card-header bg-success">
-                Product List
-            </div>
-            <div class="card-body">
-                <table class="table table-border">
-                    <thead>
-                        <tr>
-                            <th>S No</th>
-                            <th>Product Name</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @for (item of apiResponse; track $index) {
-                        <tr>
-                            <td>{{$index+1}}</td>
-                            <td>{{item.ProductName}}</td>
-                            <td>{{item.Description}}</td>
-                            <td>{{item.ActiveSince}}</td>
-                        </tr>
-                       }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div [class]="isCard() ? '' : 'mx-4 my-1 border-0' ">
+
+    @if(!isCard){
+        
+    }
+
+    <app-content-header title="Product Master" [subRoute]="title"></app-content-header>
+
+    <div class="d-flex align-items-center justify-content-end">
+        <input 
+            type="text"
+            placeholder="Search..."
+            class="form-control border-white px-2 py-1 search-table-input"
+            
+        >
+
+        <button 
+            class="p-0 border-0 ms-2" 
+            mat-icon-button
+            
+        >
+
+            <i class="bi bi-file-earmark-excel-fill text-success fs-2"></i>
+
+        </button>
+
+        <button 
+            class="mx-2"
+            mat-raised-button
+            color="accent"
+            (click)="openProductFormModal(productFormTemplate)"
+        >
+
+            <mat-icon
+                aria-hidden="false"
+                aria-label="icon"
+                fontIcon="add"
+            >
+            </mat-icon>
+            Add Product
+
+        </button>
+
     </div>
-</div> -->
 
-<div class="mx-4 my-1 border-0" >
+    <div #productTableContainer class="col-md-12 mb-3 mt-1">
 
-    <div class="col-md-12 mb-2 mt-1" >
+        <ngx-datatable 
+            #productTable
+            class="material rounded"
+            [rows]="products"
+            [columnMode]="columnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [scrollbarH]="false"
+            [loadingIndicator]="loadingIndicator()"
+            rowHeight="auto"
+            [count]="products.length"
+            [offset]="0"
+            [limit]="isCard() ? 3 : 6"
+            (page)="onPageChange($event)"
+            (sort)="onSortChange($event)"
+            >
 
-        <ngx-datatable #customer class="material" [rows]="apiResponse" [columnMode]="ColumnMode.force"
-            [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="" false
-            [count]="apiResponse.length" [offset]="0" [limit]="9" (page)="onPageChange($event)"
-            (sorts)="onSortChange($event)" style="border-radius: 1.5%;">
+            <!-- Product Code -->
+            <!-- <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
+                <ng-template let-column="column"  ngx-datatable-header-template let-sort="sortFn">
+                    <span class="text-white fw-medium tableHeader">Product Code</span>
+                </ng-template>
+
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column> -->
 
             <!-- Product Name -->
-            <ngx-datatable-column *ngFor="let c of columnDefs" [prop]="c.prop" [name]="c.header" [sortable]="c.sortable"
-                [width]="c.width">
+            <!-- <ngx-datatable-column prop="ProductName" [sortable]="true" [width]="isCard() ? 120: 150">
+                <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+                    <span class="text-white fw-medium tableHeader">Product Name</span>
+                </ng-template>
 
+                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column> -->
+            
+            <!-- Description -->
+            <!-- <ngx-datatable-column prop="Description" [sortable]="true" [width]="isCard() ? 200: 230">
+                <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+                    <span class="text-white fw-medium tableHeader">Description</span>
+                </ng-template>
+
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column> -->
+
+            <!-- Active Since -->
+            <!-- <ngx-datatable-column prop="ActiveSince" [sortable]="true" [width]="isCard() ? 120: 150">
+                <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+                    <span class="text-white fw-medium tableHeader">Active Since</span>
+                </ng-template>
+
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column> -->
+
+            <!-- Row Status -->
+            <!-- <ngx-datatable-column prop="Rowstatus" [sortable]="true" [width]="isCard() ? 100: 120">
+                <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+                    <span class="text-white fw-medium tableHeader">Row status</span>
+                </ng-template>
+
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column> -->
+
+            <!-- Action edit & delete -->
+            <!-- <ngx-datatable-column [width]="isCard() ? 120 : 150">
                 <ng-template ngx-datatable-header-template>
-                    <span class="tableHeader">{{ c.header }}</span>
+                    <span class="tableHeader">Action</span>
                 </ng-template>
 
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                    {{ value }}
-                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button
+                        class="btn btn-sm mx-1"
+                    >
+                        <i class="fa fa-edit primary-color"></i>
+                    </button>
 
+                    <button
+                        class="btn btn-sm mx-1"
+
+                    >
+                        <i class="fa fa-trash error-color"></i>
+                    </button>
+                </ng-template>
+            </ngx-datatable-column>  -->
+
+            <!-- Product Code -->
+            <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else codeView">
+                        <input class="form-control form-control-sm" [(ngModel)]="row.ProductCode" />
+                    </ng-container>
+
+                    <ng-template #codeView>
+                        {{ row.ProductCode }}
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Product Name -->
+            <ngx-datatable-column prop="ProductName" name="Product Name" [width]="isCard() ? 120: 150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else nameView">
+                        <input class="form-control form-control-sm" [(ngModel)]="row.ProductName" />
+                    </ng-container>
+
+                    <ng-template #nameView>
+                        {{ row.ProductName }}
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Description -->
+            <ngx-datatable-column prop="Description" name="Description" [width]="isCard() ? 200: 230">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else descView">
+                        <input class="form-control form-control-sm" [(ngModel)]="row.Description" />
+                    </ng-container>
+
+                    <ng-template #descView>
+                        {{ row.Description }}
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Active Since -->
+            <ngx-datatable-column prop="ActiveSince" name="Active Since" [width]="isCard() ? 120: 150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else sinceView">
+                        <input class="form-control form-control-sm" [(ngModel)]="row.ActiveSince" />
+                    </ng-container>
+
+                    <ng-template #sinceView>
+                        {{ row.ActiveSince }}
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Row Status -->
+            <ngx-datatable-column prop="Rowstatus" name="Row Status" [width]="isCard() ? 100: 120">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else statusView">
+                        <input class="form-control form-control-sm" [(ngModel)]="row.Rowstatus" />
+                    </ng-container>
+
+                    <ng-template #statusView>
+                        {{ row.Rowstatus }}
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Action -->
+            <ngx-datatable-column name="Action" [width]="isCard() ? 120 : 150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isEditable; else actionView">
+                        <button class="btn btn-sm btn-success me-1" (click)="saveRow(row)">
+                        <i class="fa fa-check"></i>
+                        </button>
+                        <button class="btn btn-sm btn-secondary" (click)="cancelEdit(row)">
+                        <i class="fa fa-times"></i>
+                        </button>
+                    </ng-container>
+
+                    <ng-template #actionView>
+                        <button class="btn btn-sm btn-primary me-1" (click)="editRow(row)">
+                        <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteRow(row)">
+                        <i class="fa fa-trash"></i>
+                        </button>
+                    </ng-template>
+                </ng-template>
             </ngx-datatable-column>
 
         </ngx-datatable>
@@ -58,3 +232,21 @@
     </div>
 
 </div>
+
+<!-- Product Model Pop-up -->
+<ng-template #productFormTemplate>
+    <div class="modal-header d-flex align-items-center justify-content-between">
+        <h4 class="modal-title mb-0">Product</h4>
+        <button
+            type="button"
+            class="btn-close close"
+            aria-label="Close"
+            (click)="closeUserModal()"
+        >
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-product-form></app-product-form>
+    </div>
+</ng-template>

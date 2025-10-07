@@ -1,6 +1,6 @@
 :root{
     --background-color:#f4f4f4;
-    --primary-color:#6610f2;
+    --primary-color:#B6F500;
     --secondary-color:#ff4b2b;
     --tertiary-color:#ff416c;
     --light-color: rgb(255, 245, 255);
@@ -20,6 +20,8 @@
     --font-size-xxl: 1.4rem;
     --font-size-xxxl: 1.8rem;
 }
+
+/* 6610f2 */
 
 .bg-color{
     background-color: var(--background-color) !important;

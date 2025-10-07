@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver'
 import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { using } from 'rxjs';
 import { EditUser } from "./components/edit-user/edit-user";
 
 @Component({

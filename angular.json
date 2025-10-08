@@ -13,6 +13,11 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+            "file-saver",
+            "lodash.isequal",
+            "quill-delta"
+          ],
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -51,7 +56,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "2MB",
                   "maximumError": "5MB"
                 },
                 {

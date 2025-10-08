@@ -1,72 +1,86 @@
-@let form = formData()!;
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row g-4 mx-4">
 
-<form [formGroup]="form">
-    <div class="row g-4 mx-4">
-
-        <!-- ProductCode -->
-        <div class="form-group col-xl-6 col-sm-6 col-12">
-            <label>Product Code <span class="error-color">*</span></label>
-            <input 
-                type="text"
-                class="form-control"
-                placeholder="Enter Name"
-                formControlName="ProductCode"
-            >
-        </div>
-
-        <!-- ProductName -->
-        <div class="form-group col-xl-6 col-sm-6 col-12">
-            <label>Product Name <span class="error-color">*</span></label>
-            <input 
-                type="text"
-                class="form-control"
-                placeholder="Enter Product Name"
-                formControlName="ProductName"
-            >
-        </div>
-
-        <!-- Description -->
-        <div class="form-group col-xl-6 col-sm-6 col-12">
-            <label>Description <span class="error-color">*</span></label>
-            <textarea
-                class="form-control"
-                placeholder="Enter Description"
-                formControlName="Description"
-                rows="1"
-            >
-            </textarea>
-        </div>
-
-        <!-- ActiveSince -->
-        <div class="form-group col-xl-6 col-sm-6 col-12">
-            <label>Active Since <span class="error-color">*</span></label>
-            <input 
-                type="text"
-                class="form-control"
-                placeholder="Enter Activation Date"
-                formControlName="ActiveSince"
-                bsDatepicker
-                [bsConfig]="datePickerConfig"
-            >
-        </div>
-
-        <!-- Rowstatus -->
-        <div class="form-group col-xl-6 col-sm-6 col-12">
-            <label>Row Status <span class="error-color">*</span></label>
-            <input 
-                type="text"
-                class="form-control"
-                placeholder="Enter Row Status"
-                formControlName="Rowstatus">
-        </div>
-
-        <!-- Submit button -->
-        <div class="box-footer mt-4 d-flex justify-content-center">
-            <button mat-raised-button color="accent" type="submit">
-                <mat-icon aria-hidden="false" aria-label="icon" fontIcon="upload"></mat-icon>
-                Submit
-            </button>
-        </div>
-
+    <!-- ProductCode -->
+    <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label>Product Code <span class="error-color">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter Code"
+        formControlName="ProductCode"
+      />
+      <small *ngIf="form.get('ProductCode')?.invalid && form.get('ProductCode')?.touched" class="text-danger">
+        Product Code is required.
+      </small>
     </div>
+
+    <!-- ProductName -->
+    <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label>Product Name <span class="error-color">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter Product Name"
+        formControlName="ProductName"
+      />
+      <small *ngIf="form.get('ProductName')?.invalid && form.get('ProductName')?.touched" class="text-danger">
+        Product Name is required.
+      </small>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label>Description <span class="error-color">*</span></label>
+      <textarea
+        class="form-control"
+        placeholder="Enter Description"
+        formControlName="Description"
+        rows="1"
+      ></textarea>
+      <small *ngIf="form.get('Description')?.invalid && form.get('Description')?.touched" class="text-danger">
+        Description is required.
+      </small>
+    </div>
+
+    <!-- ActiveSince -->
+    <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label>Active Since <span class="error-color">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Select Activation Date"
+        formControlName="ActiveSince"
+        bsDatepicker
+        [bsConfig]="datePickerConfig"
+        autocomplete="off"
+      />
+      <small *ngIf="form.get('ActiveSince')?.invalid && form.get('ActiveSince')?.touched" class="text-danger">
+        Activation date is required.
+      </small>
+    </div>
+
+    <!-- Rowstatus -->
+    <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label>Row Status <span class="error-color">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter Row Status"
+        formControlName="Rowstatus"
+      />
+      <small *ngIf="form.get('Rowstatus')?.invalid && form.get('Rowstatus')?.touched" class="text-danger">
+        Row Status is required.
+      </small>
+    </div>
+
+    <!-- Submit button -->
+    <div class="box-footer mt-4 d-flex justify-content-center">
+      <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">
+        <mat-icon>upload</mat-icon>
+        {{ isEditMode ? 'Update' : 'Submit' }}
+      </button>
+    </div>
+
+  </div>
 </form>

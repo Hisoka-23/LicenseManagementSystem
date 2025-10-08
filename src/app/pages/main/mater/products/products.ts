@@ -52,18 +52,16 @@ export class Products implements OnInit {
   }
 
   // inject the ProductService class in Products.ts.
-  constructor(private Products: ProductService){
-
-  }
+  constructor(private productService: ProductService) {}
 
   // ngOnInit for get api call on life cycle event
-  ngOnInit(): void {
-    this.Products.loadLicProduct();
+  ngOnInit() {
+    this.productService.loadLicProduct();
   }
 
   //get for getting api data and use in products.html by keywords(products)
   get products() {
-    return this.Products.productApiResponse;
+    return this.productService.productApiResponse;
   }
 
     editRow(row: any) {

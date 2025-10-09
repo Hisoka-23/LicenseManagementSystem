@@ -45,8 +45,6 @@ export class Products implements OnInit {
   //check card for component reusability
   isCard = input<boolean>(false);
 
-  
-
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);
   }
@@ -56,7 +54,7 @@ export class Products implements OnInit {
 
   // ngOnInit for get api call on life cycle event
   ngOnInit() {
-    this.productService.loadLicProduct();
+    this.productService.loadProducts();
   }
 
   //get for getting api data and use in products.html by keywords(products)
@@ -64,7 +62,7 @@ export class Products implements OnInit {
     return this.productService.productApiResponse;
   }
 
-    editRow(row: any) {
+  editRow(row: any) {
     this.cancelAllEdits();
     this.backupData = { ...row };
     row.isEditable = true;

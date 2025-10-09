@@ -7,26 +7,19 @@ import { ProductInterface } from './../interface/product-interface';
   providedIn: 'root'
 })
 export class ProductService {
+
   private http = inject(HttpClient);
-  private baseUrl = 'https://essweb.in/API/';
 
-  // ✅ Universal API caller
-  private callApi(endpoint: string, method: string, body?: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    switch (method.toUpperCase()) {
-      case 'GET': return this.http.get(`${this.baseUrl}${endpoint}`, { headers });
-      case 'POST': return this.http.post(`${this.baseUrl}${endpoint}`, body, { headers });
-      case 'PUT': return this.http.put(`${this.baseUrl}${endpoint}`, body, { headers });
-      case 'DELETE': return this.http.delete(`${this.baseUrl}${endpoint}`, { headers });
-      default: throw new Error(`Unsupported request method: ${method}`);
-    }
-  }
+  private apiUrl1 = 'https://essweb.in/API/GetCommonApiWithParaList';
 
   productApiResponse: ProductInterface[] = [];
 
-  // 🔹 View Products
-  loadLicProduct() {
+  // ✅ Get Product List API (View Action)
+  getProducts(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
     const body = {
       ReturnType: 'json',
       tblDynamicParaList: JSON.stringify([
@@ -38,84 +31,51 @@ export class ProductService {
       ConnectionType: 'lic'
     };
 
-    this.callApi('GetCommonApiWithParaList', 'POST', body).subscribe({
-      next: (result: any) => {
-        console.log('Product API Response:', result);
-        this.productApiResponse = result.ProductList;
+    return this.http.post(this.apiUrl1, body, { headers });
+  }
+
+  loadProducts(): void {
+    this.getProducts().subscribe({
+      next: (res) => {
+        console.log('Product API Response:', res);
+        // ✅ Ensure backend response key matches your data
+        this.productApiResponse = res?.ProductList || res?.data || [];
       },
       error: (err) => {
-        console.error('Error:', err);
-        alert('Something went wrong!');
+        console.error('API Error:', err);
+        alert('Failed to fetch product data');
       }
     });
   }
 
-addProduct(product: any) {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
+  private apiUrl2 = 'https://essweb.in/API/SetCommonUserData';
 
-  const body = {
-    ReturnType: 'json',
-    tblDynamicParaList: JSON.stringify([
-      { columnname: 'action', columnvalue: 'add' },
-      { columnname: 'ProductCode', columnvalue: product.ProductCode },
-      { columnname: 'ProductName', columnvalue: product.ProductName },
-      { columnname: 'Description', columnvalue: product.Description },
-      { columnname: 'ActiveSince', columnvalue: product.ActiveSince },
-      { columnname: 'Rowstatus', columnvalue: product.Rowstatus }
-    ]),
-    ReportTag: 'licproductadd',  // 👈 try 'licproductadd' or confirm correct one
-    ResultType: 'formdata',
-    DevicePlateForm: 'Mobile',
-    ConnectionType: 'lic'
-  };
+  // ✅ Save Product (Add/Edit/Delete)
+  saveProduct(action: 'Add' | 'Edit' | 'Delete', formData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  console.log('Sending to API:', body);
-
-  return this.http.post("https://essweb.in/API/GetCommonApiWithParaList", body, { headers });
-}
-
-
-  // 🔹 Update Product
-  updateProduct(product: any): Observable<any> {
-    const dynamicParams = [
-      { columnname: 'action', columnvalue: 'update' },
-      { columnname: 'ProductCode', columnvalue: product.ProductCode },
-      { columnname: 'ProductName', columnvalue: product.ProductName },
-      { columnname: 'Description', columnvalue: product.Description },
-      { columnname: 'ActiveSince', columnvalue: product.ActiveSince },
-      { columnname: 'Rowstatus', columnvalue: product.Rowstatus }
-    ];
+    const rowStatus =
+      action === 'Add' ? 'A' :
+      action === 'Edit' ? 'E' :
+      action === 'Delete' ? 'D' : 'V';
 
     const body = {
       ReturnType: 'json',
-      tblDynamicParaList: JSON.stringify(dynamicParams),
-      ReportTag: 'licproduct',
-      ResultType: 'formdata',
-      DevicePlateForm: 'Mobile',
+      tblDynamicParaList: JSON.stringify([
+        { ColumnName: 'Action', ColumnValue: 'Edit' }
+      ]),
+      ResultTable2Save: JSON.stringify([
+        {
+          ...formData,      // form fields dynamically spread
+          Rowstatus: rowStatus
+        }
+      ]),
+      FormTagID: 'licproduct',
+      DevicePlateForm: 'MOBILE',
       ConnectionType: 'lic'
     };
 
-    return this.callApi('GetCommonApiWithParaList', 'POST', body);
+    return this.http.post(this.apiUrl2, body, { headers });
   }
 
-  // 🔹 Delete Product
-  deleteProduct(productId: number): Observable<any> {
-    const dynamicParams = [
-      { columnname: 'action', columnvalue: 'delete' },
-      { columnname: 'ProductCode', columnvalue: productId }
-    ];
-
-    const body = {
-      ReturnType: 'json',
-      tblDynamicParaList: JSON.stringify(dynamicParams),
-      ReportTag: 'licproduct',
-      ResultType: 'formdata',
-      DevicePlateForm: 'Mobile',
-      ConnectionType: 'lic'
-    };
-
-    return this.callApi('GetCommonApiWithParaList', 'POST', body);
-  }
 }

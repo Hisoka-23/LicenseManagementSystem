@@ -1,52 +1,65 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form">
   <div class="row g-4 mx-4">
 
-    <!-- ProductCode -->
+    <!-- Product Code -->
     <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label>Product Code <span class="error-color">*</span></label>
+      <label for="ProductCode">Product Code <span class="error-color">*</span></label>
       <input
+        id="ProductCode"
         type="text"
         class="form-control"
         placeholder="Enter Code"
         formControlName="ProductCode"
       />
-      <small *ngIf="form.get('ProductCode')?.invalid && form.get('ProductCode')?.touched" class="text-danger">
+      <small
+        *ngIf="form.get('ProductCode')?.invalid && form.get('ProductCode')?.touched"
+        class="text-danger"
+      >
         Product Code is required.
       </small>
     </div>
 
-    <!-- ProductName -->
+    <!-- Product Name -->
     <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label>Product Name <span class="error-color">*</span></label>
+      <label for="ProductName">Product Name <span class="error-color">*</span></label>
       <input
+        id="ProductName"
         type="text"
         class="form-control"
         placeholder="Enter Product Name"
         formControlName="ProductName"
       />
-      <small *ngIf="form.get('ProductName')?.invalid && form.get('ProductName')?.touched" class="text-danger">
+      <small
+        *ngIf="form.get('ProductName')?.invalid && form.get('ProductName')?.touched"
+        class="text-danger"
+      >
         Product Name is required.
       </small>
     </div>
 
     <!-- Description -->
     <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label>Description <span class="error-color">*</span></label>
+      <label for="Description">Description <span class="error-color">*</span></label>
       <textarea
+        id="Description"
         class="form-control"
         placeholder="Enter Description"
         formControlName="Description"
-        rows="1"
+        rows="2"
       ></textarea>
-      <small *ngIf="form.get('Description')?.invalid && form.get('Description')?.touched" class="text-danger">
+      <small
+        *ngIf="form.get('Description')?.invalid && form.get('Description')?.touched"
+        class="text-danger"
+      >
         Description is required.
       </small>
     </div>
 
-    <!-- ActiveSince -->
+    <!-- Active Since -->
     <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label>Active Since <span class="error-color">*</span></label>
+      <label for="ActiveSince">Active Since <span class="error-color">*</span></label>
       <input
+        id="ActiveSince"
         type="text"
         class="form-control"
         placeholder="Select Activation Date"
@@ -54,29 +67,43 @@
         bsDatepicker
         [bsConfig]="datePickerConfig"
         autocomplete="off"
+        readonly
       />
-      <small *ngIf="form.get('ActiveSince')?.invalid && form.get('ActiveSince')?.touched" class="text-danger">
+      <small
+        *ngIf="form.get('ActiveSince')?.invalid && form.get('ActiveSince')?.touched"
+        class="text-danger"
+      >
         Activation date is required.
       </small>
     </div>
 
-    <!-- Rowstatus -->
-    <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label>Row Status <span class="error-color">*</span></label>
+    <!-- Row Status -->
+    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
+      <label for="Rowstatus">Row Status <span class="error-color">*</span></label>
       <input
+        id="Rowstatus"
         type="text"
         class="form-control"
         placeholder="Enter Row Status"
         formControlName="Rowstatus"
       />
-      <small *ngIf="form.get('Rowstatus')?.invalid && form.get('Rowstatus')?.touched" class="text-danger">
+      <small
+        *ngIf="form.get('Rowstatus')?.invalid && form.get('Rowstatus')?.touched"
+        class="text-danger"
+      >
         Row Status is required.
       </small>
-    </div>
+    </div> -->
 
-    <!-- Submit button -->
+    <!-- Submit Button -->
     <div class="box-footer mt-4 d-flex justify-content-center">
-      <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">
+      <button
+        mat-raised-button
+        color="accent"
+        type="submit"
+        [disabled]="form.invalid"
+        (click)="onAdd()"
+      >
         <mat-icon>upload</mat-icon>
         {{ isEditMode ? 'Update' : 'Submit' }}
       </button>

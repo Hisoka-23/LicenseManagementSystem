@@ -1,11 +1,10 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ColumnMode, DataTableColumnDirective, DatatableComponent } from "@swimlane/ngx-datatable";
 
 @Component({
   selector: 'app-customer-summary',
   standalone: true,
-  imports: [DatatableComponent, DataTableColumnDirective, NgIf],
+  imports: [DatatableComponent, DataTableColumnDirective],
   templateUrl: './customer-summary.html',
   styleUrl: './customer-summary.css'
 })

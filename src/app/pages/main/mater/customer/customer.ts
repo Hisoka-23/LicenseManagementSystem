@@ -17,6 +17,7 @@ import { CompanyInfo } from "./company-info/company-info";
 import { Amc } from "./amc/amc";
 import { EditCustomerMisc2 } from "./edit-customer-misc-2/edit-customer-misc-2";
 
+//AppEditCustomer,
 
 @Component({
   selector: 'app-customer',
@@ -27,7 +28,6 @@ import { EditCustomerMisc2 } from "./edit-customer-misc-2/edit-customer-misc-2";
     MatIconModule,
     ModalModule,
     ContentHeader,
-    AppEditCustomer,
     Tabs,
     NgIf,
     EditCustomerMisc,

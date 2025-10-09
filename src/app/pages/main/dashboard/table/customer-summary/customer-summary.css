@@ -43,14 +43,14 @@
 }
 
 
-ngx-datatable /deep/ .ngx-datatable-header {
+/* ngx-datatable /deep/ .ngx-datatable-header {
     background: #ffffff;
 }
 
 ngx-datatable /deep/ .ngx-datatable-header-cell {
     font-weight: 700;
     color: #0b57d0;
-}
+} */
 
 .align {
     align-items: end;

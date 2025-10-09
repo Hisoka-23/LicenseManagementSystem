@@ -14,7 +14,7 @@
             
         >
 
-        <button 
+        <!-- <button 
             class="p-0 border-0 ms-2" 
             mat-icon-button
             
@@ -22,7 +22,7 @@
 
             <i class="bi bi-file-earmark-excel-fill text-success fs-2"></i>
 
-        </button>
+        </button> -->
 
         <button 
             class="mx-2"
@@ -47,7 +47,7 @@
 
         <ngx-datatable 
             #productTable
-            class="material rounded"
+            class="material rounded align-items-center"
             [rows]="products"
             [columnMode]="columnMode.force"
             [headerHeight]="50"
@@ -63,7 +63,7 @@
             >
 
             <!-- Product Code -->
-            <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
+            <!-- <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else codeView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.ProductCode" />
@@ -73,10 +73,10 @@
                         {{ row.ProductCode }}
                     </ng-template>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <!-- Product Name -->
-            <ngx-datatable-column prop="ProductName" name="Product Name" [width]="isCard() ? 120: 150">
+            <ngx-datatable-column prop="ProductName" name="Product Name" headerClass="text-center" [width]="isCard() ? 100: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else nameView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.ProductName" />
@@ -89,7 +89,7 @@
             </ngx-datatable-column>
 
             <!-- Description -->
-            <ngx-datatable-column prop="Description" name="Description" [width]="isCard() ? 200: 230">
+            <ngx-datatable-column prop="Description" name="Description" headerClass="text-center" [width]="isCard() ? 250: 250">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else descView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.Description" />
@@ -102,7 +102,7 @@
             </ngx-datatable-column>
 
             <!-- Active Since -->
-            <ngx-datatable-column prop="ActiveSince" name="Active Since" [width]="isCard() ? 120: 150">
+            <!-- <ngx-datatable-column prop="ActiveSince" name="Active Since" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else sinceView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.ActiveSince" />
@@ -112,10 +112,10 @@
                         {{ row.ActiveSince }}
                     </ng-template>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <!-- Row Status -->
-            <ngx-datatable-column prop="Rowstatus" name="Row Status" [width]="isCard() ? 100: 120">
+            <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else statusView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.Rowstatus" />
@@ -128,7 +128,7 @@
             </ngx-datatable-column>
 
             <!-- Action -->
-            <ngx-datatable-column name="Action" [width]="isCard() ? 120 : 150">
+            <ngx-datatable-column name="Action" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100 : 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else actionView">
                         <button class="btn btn-sm btn-success me-1" (click)="saveRow(row)">
@@ -151,6 +151,7 @@
             </ngx-datatable-column>
 
         </ngx-datatable>
+        
 
     </div>
 

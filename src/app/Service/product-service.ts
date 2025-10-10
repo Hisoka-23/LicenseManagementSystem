@@ -14,7 +14,7 @@ export class ProductService {
 
   productApiResponse: ProductInterface[] = [];
 
-  // ✅ Get Product List API (View Action)
+  // Get Product List API (View Action)
   getProducts(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -50,14 +50,11 @@ export class ProductService {
 
   private apiUrl2 = 'https://essweb.in/API/SetCommonUserData';
 
-  // ✅ Save Product (Add/Edit/Delete)
+  // Save Product (Add/Edit/Delete)
   saveProduct(action: 'Add' | 'Edit' | 'Delete', formData: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    const rowStatus =
-      action === 'Add' ? 'A' :
-      action === 'Edit' ? 'E' :
-      action === 'Delete' ? 'D' : 'V';
+    const rowStatus = action === 'Add' ? 'A' : action === 'Edit' ? 'E' : action === 'Delete' ? 'D' : 'V';
 
     const body = {
       ReturnType: 'json',
@@ -66,7 +63,7 @@ export class ProductService {
       ]),
       ResultTable2Save: JSON.stringify([
         {
-          ...formData,      // form fields dynamically spread
+          ...formData,
           Rowstatus: rowStatus
         }
       ]),

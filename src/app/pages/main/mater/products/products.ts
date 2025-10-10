@@ -9,38 +9,56 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProductForm } from "./product-form/product-form";
 import { ProductInterface } from '../../../../interface/product-interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [
-    NgxDatatableModule,   
-    ContentHeader, 
-    MatButtonModule, 
-    MatIconModule, 
+    NgxDatatableModule,
+    ContentHeader,
+    MatButtonModule,
+    BsDatepickerModule,
+    MatIconModule,
     ProductForm,
     CommonModule,
     FormsModule,
+    MatSnackBarModule
   ],
-  providers:[BsModalService, DatePipe],
+  providers: [BsModalService, DatePipe,
+        {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top' }
+    }
+  ],
   templateUrl: './products.html',
   styleUrls: ['./products.css']
 })
 export class Products implements OnInit {
 
+  datePickerConfig!: Partial<BsDatepickerConfig>;
+
+  private datePipe = inject(DatePipe);
+
+  // Title of the page
   title = 'Product Master';
 
+  // DataType of the product get api 
   product = signal<ProductInterface[]>([]);
 
+  // loadingIndicator 
   loadingIndicator = signal<boolean>(false);
 
+  // modal 
   modalRef = signal<BsModalRef | null>(null);
 
+  // modal
   private modalService = inject(BsModalService);
 
+  //Datatable 
   columnMode = ColumnMode;
-
-  private backupData: any = {};
 
   //check card for component reusability
   isCard = input<boolean>(false);
@@ -50,11 +68,19 @@ export class Products implements OnInit {
   }
 
   // inject the ProductService class in Products.ts.
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private snackBar: MatSnackBar
+  ) { }
 
   // ngOnInit for get api call on life cycle event
   ngOnInit() {
     this.productService.loadProducts();
+
+    this.datePickerConfig = {
+      containerClass: 'theme-blue',
+      dateInputFormat: 'DD-MM-YYYY'
+    };
   }
 
   //get for getting api data and use in products.html by keywords(products)
@@ -62,40 +88,68 @@ export class Products implements OnInit {
     return this.productService.productApiResponse;
   }
 
+  private backupData: any = {};
+
+  // Enable edit mode for the selected row
   editRow(row: any) {
     this.cancelAllEdits();
-    this.backupData = { ...row };
+    this.backupData = { ...row }; // keep backup before editing
     row.isEditable = true;
   }
 
+  // Save edited row — calls API with action = 'Edit'
   saveRow(row: any) {
-    // Example: Validate and Save (call API if needed)
     if (!row.ProductCode || !row.ProductName) {
       alert('Please fill all fields!');
       return;
     }
 
-    // API call simulation
-    console.log('Saving row:', row);
-    row.isEditable = false;
-    alert('Row updated successfully!');
+    this.setLoadingIndicator(true);
+
+    this.productService.saveProduct('Edit', row).subscribe({
+      next: (response) => {
+        console.log('Edit response:', response);
+        row.isEditable = false;
+        this.snackBar.open('Record is Updated successfully!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
+        this.productService.loadProducts(); // refresh data after edit
+      },
+      error: (err) => {
+        console.error('Edit API error:', err);
+        this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+      },
+      complete: () => this.setLoadingIndicator(false),
+    });
   }
 
+  // Cancel edit and revert back to original data
   cancelEdit(row: any) {
     Object.assign(row, this.backupData);
     row.isEditable = false;
   }
 
+  // Delete row — calls API with action = 'Delete'
   deleteRow(row: any) {
-    if (confirm('Are you sure you want to delete this product?')) {
-      const index = this.products.findIndex(p => p.ProductCode === row.ProductCode);
-      if (index > -1) this.products.splice(index, 1);
-      alert('Row deleted!');
-    }
+    if (!confirm('Are you sure you want to delete this product?')) return;
+
+    this.setLoadingIndicator(true);
+
+    this.productService.saveProduct('Delete', row).subscribe({
+      next: (response) => {
+        console.log('Delete response:', response);
+        this.snackBar.open('Record is delete successfully!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+        this.productService.loadProducts(); // refresh list after delete
+      },
+      error: (err) => {
+        console.error('Delete API error:', err);
+        this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',});
+      },
+      complete: () => this.setLoadingIndicator(false),
+    });
   }
 
+  // Utility — Cancel all edit states
   cancelAllEdits() {
-    this.products.forEach((r: any) => r.isEditable = false);
+    this.products.forEach((r: any) => (r.isEditable = false));
   }
 
   onPageChange(event: any) {
@@ -106,13 +160,11 @@ export class Products implements OnInit {
     console.log(event);
   }
 
-  openProductFormModal(template: TemplateRef<void>, Product?: ProductForm){
-
+  openProductFormModal(template: TemplateRef<void>, Product?: ProductForm) {
     this.modalRef.set(this.modalService.show(template, { class: 'modal-lg' }));
-
   }
 
-  closeUserModal(){
+  closeUserModal() {
     this.modalRef()?.hide();
   }
 

@@ -1,8 +1,8 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onAdd()">
   <div class="row g-4 mx-4">
 
     <!-- Product Code -->
-    <div class="form-group col-xl-6 col-sm-6 col-12">
+    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
       <label for="ProductCode">Product Code <span class="error-color">*</span></label>
       <input
         id="ProductCode"
@@ -17,7 +17,7 @@
       >
         Product Code is required.
       </small>
-    </div>
+    </div> -->
 
     <!-- Product Name -->
     <div class="form-group col-xl-6 col-sm-6 col-12">
@@ -45,7 +45,7 @@
         class="form-control"
         placeholder="Enter Description"
         formControlName="Description"
-        rows="2"
+        rows="1"
       ></textarea>
       <small
         *ngIf="form.get('Description')?.invalid && form.get('Description')?.touched"
@@ -67,7 +67,6 @@
         bsDatepicker
         [bsConfig]="datePickerConfig"
         autocomplete="off"
-        readonly
       />
       <small
         *ngIf="form.get('ActiveSince')?.invalid && form.get('ActiveSince')?.touched"
@@ -95,18 +94,15 @@
       </small>
     </div> -->
 
-    <!-- Submit Button -->
-    <div class="box-footer mt-4 d-flex justify-content-center">
-      <button
-        mat-raised-button
-        color="accent"
-        type="submit"
-        [disabled]="form.invalid"
-        (click)="onAdd()"
-      >
-        <mat-icon>upload</mat-icon>
-        {{ isEditMode ? 'Update' : 'Submit' }}
-      </button>
+        <!-- Submit Button -->
+        <div class="box-footer mt-4 d-flex justify-content-center">
+        <button
+          mat-raised-button
+          color="accent"
+        >
+          <mat-icon *ngIf="!loadingIndicator()">upload</mat-icon>
+          <span *ngIf="!loadingIndicator()">{{ 'Submit' }}</span>
+        </button>
     </div>
 
   </div>

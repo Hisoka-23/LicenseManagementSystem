@@ -62,6 +62,14 @@
             (sort)="onSortChange($event)"
             >
 
+            <!-- Serial Number Column -->
+            <ngx-datatable-column name="S.No" [width]="70" headerClass="text-center">
+            <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                {{ rowIndex + 1 }}
+            </ng-template>
+            </ngx-datatable-column>
+
+
             <!-- Product Code -->
             <!-- <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -102,20 +110,27 @@
             </ngx-datatable-column>
 
             <!-- Active Since -->
-            <!-- <ngx-datatable-column prop="ActiveSince" name="Active Since" [width]="isCard() ? 120: 150">
+            <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else sinceView">
-                        <input class="form-control form-control-sm" [(ngModel)]="row.ActiveSince" />
+                        <input 
+                        id="ActiveSince"
+                        type="text"
+                        class="form-control"
+                        placeholder="Select Activation Date"
+                        bsDatepicker
+                        [bsConfig]="datePickerConfig"
+                        [(ngModel)]="row.ActiveSince" />
                     </ng-container>
 
                     <ng-template #sinceView>
                         {{ row.ActiveSince }}
                     </ng-template>
                 </ng-template>
-            </ngx-datatable-column> -->
+            </ngx-datatable-column>
 
             <!-- Row Status -->
-            <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
+            <!-- <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else statusView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.Rowstatus" />
@@ -125,7 +140,7 @@
                         {{ row.Rowstatus }}
                     </ng-template>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <!-- Action -->
             <ngx-datatable-column name="Action" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100 : 150">

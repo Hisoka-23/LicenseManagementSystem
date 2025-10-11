@@ -1,8 +1,9 @@
+
 import { ProductService } from './../../../../Service/product-service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, input, OnInit, signal, TemplateRef } from '@angular/core';
+import { Component, inject, input, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ContentHeader } from "../../../../widgets/content-header/content-header";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +12,7 @@ import { ProductInterface } from '../../../../interface/product-interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-products',
@@ -25,7 +26,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@
     ProductForm,
     CommonModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    SweetAlert2Module
   ],
   providers: [BsModalService, DatePipe,
         {
@@ -38,9 +40,13 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@
 })
 export class Products implements OnInit {
 
+  tableSignal = viewChild<DatatableComponent>(DatatableComponent);
+
   datePickerConfig!: Partial<BsDatepickerConfig>;
 
   private datePipe = inject(DatePipe);
+
+  temp = signal<ProductInterface[]>([]);
 
   // Title of the page
   title = 'Product Master';
@@ -108,14 +114,18 @@ export class Products implements OnInit {
 
     this.productService.saveProduct('Edit', row).subscribe({
       next: (response) => {
-        console.log('Edit response:', response);
+       if(response.Code === '0'){
+        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
+       }else{
+         console.log('Edit response:', response);
         row.isEditable = false;
-        this.snackBar.open('Record is Updated successfully!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
+        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
         this.productService.loadProducts(); // refresh data after edit
+       }
       },
       error: (err) => {
         console.error('Edit API error:', err);
-        this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+        this.snackBar.open(err.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
       },
       complete: () => this.setLoadingIndicator(false),
     });
@@ -134,14 +144,18 @@ export class Products implements OnInit {
     this.setLoadingIndicator(true);
 
     this.productService.saveProduct('Delete', row).subscribe({
-      next: (response) => {
-        console.log('Delete response:', response);
-        this.snackBar.open('Record is delete successfully!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+      next: (response: any) => {
+        if(response.code === '0'){
+          this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+        }else{
+          console.log('Delete response:', response);
+        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
         this.productService.loadProducts(); // refresh list after delete
+        }
       },
       error: (err) => {
         console.error('Delete API error:', err);
-        this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',});
+        this.snackBar.open(err.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',});
       },
       complete: () => this.setLoadingIndicator(false),
     });
@@ -167,5 +181,24 @@ export class Products implements OnInit {
   closeUserModal() {
     this.modalRef()?.hide();
   }
+
+  onFilterChange(event: any) {
+    console.log(event.target.value);
+    const val = event.target.value.toLowerCase();
+
+    const filter = this.temp().filter((item)=>{
+      return item?.ProductName.toLocaleLowerCase().indexOf(val) !== -1 ||
+      item.Description.toLocaleUpperCase().indexOf(val) !== -1 || 
+      !val;
+    });
+
+    // Update the filtered data in the ProductService or use a local signal
+    this.productService.productApiResponse = filter;
+  }
+
+
+
+
+
 
 }

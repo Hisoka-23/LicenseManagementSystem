@@ -11,7 +11,7 @@
             type="text"
             placeholder="Search..."
             class="form-control border-white px-2 py-1 search-table-input"
-            
+            (input)="onFilterChange($event)"
         >
 
         <!-- <button 
@@ -110,7 +110,7 @@
             </ngx-datatable-column>
 
             <!-- Active Since -->
-            <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
+            <!-- <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else sinceView">
                         <input 
@@ -127,7 +127,16 @@
                         {{ row.ActiveSince }}
                     </ng-template>
                 </ng-template>
+            </ngx-datatable-column> -->
+
+
+            <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.ActiveSince }}
+            </ng-template>
             </ngx-datatable-column>
+
+
 
             <!-- Row Status -->
             <!-- <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
@@ -186,6 +195,6 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-product-form></app-product-form>
+        <app-product-form (formSubmitted)="closeUserModal()"></app-product-form>
     </div>
 </ng-template>

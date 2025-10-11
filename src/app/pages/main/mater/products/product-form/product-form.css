@@ -1,5 +1,6 @@
 /* Success Snackbar */
 .snackbar-success {
+    z-index: 20000 !important; 
   background-color: #4caf50 !important; /* green */
   color: #fff !important;
   font-weight: 500;
@@ -7,6 +8,7 @@
 
 /* Error Snackbar */
 .snackbar-error {
+    z-index: 20000 !important; 
   background-color: #f44336 !important; /* red */
   color: #fff !important;
   font-weight: 500;
@@ -14,16 +16,19 @@
 
 /* Optional: Customize close button */
 .mat-mdc-snack-bar-action {
+    z-index: 20000 !important; 
   color: #fff !important;
   font-weight: bold;
 }
 
 .snackbar-info {
+    z-index: 20000 !important; 
   background-color: #2196f3 !important; /* blue */
   color: #fff !important;
 }
 
 .snackbar-warning {
+    z-index: 20000 !important; 
   background-color: #ff9800 !important; /* orange */
   color: #fff !important;
 }

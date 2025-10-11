@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, inject, signal } from '@angular/core';
+import {  Input, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { NgxSelectModule } from 'ngx-select-ex';
 import { ProductService } from '../../../../../Service/product-service';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-form',
@@ -31,6 +32,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./product-form.css']
 })
 export class ProductForm implements OnInit {
+  @Output() formSubmitted = new EventEmitter<void>();
   form!: FormGroup;
   datePickerConfig!: Partial<BsDatepickerConfig>;
   private datePipe = inject(DatePipe);
@@ -64,14 +66,13 @@ export class ProductForm implements OnInit {
       ProductCode: ['0'],
       ProductName: ['', Validators.required],
       Description: ['', Validators.required],
-      ActiveSince: [null, Validators.required],
     });
   }
 
   // Submit form for "Add" action only
   onAdd(): void {
     if (this.form.invalid) {
-      this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000 });
+      this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
       return;
     }
 
@@ -80,15 +81,21 @@ export class ProductForm implements OnInit {
     const formValue = this.form.value;
 
     this.productService.saveProduct('Add', formValue).subscribe({
-      next: (res) => {
-        console.log('Add API Response:', res);
-       this.snackBar.open('Product added successfully!', '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
+      next: (res: any) => {
+        if(res.Code === '0'){
+            this.snackBar.open(res.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
+            this.formSubmitted.emit();
+        }else{
+          console.log('Add API Response:', res);
+        this.snackBar.open(res.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
         this.form.reset();
         this.productService.loadProducts();
+        this.formSubmitted.emit();
+        }
       },
       error: (err) => {
         console.error('Add API Error:', err);
-         this.snackBar.open('Failed to add product!', '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+         this.snackBar.open(err.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
       },
       complete: () => this.setLoadingIndicator(false),
     });

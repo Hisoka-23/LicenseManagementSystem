@@ -35,13 +35,16 @@ export class ProductService {
   }
 
   loadProducts(): void {
+    debugger;
     this.getProducts().subscribe({
       next: (res) => {
+        debugger;
         console.log('Product API Response:', res);
         // ✅ Ensure backend response key matches your data
         this.productApiResponse = res?.ProductList || res?.data || [];
       },
       error: (err) => {
+        debugger;
         console.error('API Error:', err);
         alert('Failed to fetch product data');
       }

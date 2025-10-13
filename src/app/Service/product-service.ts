@@ -40,8 +40,9 @@ export class ProductService {
       next: (res) => {
         debugger;
         console.log('Product API Response:', res);
-        // ✅ Ensure backend response key matches your data
+        // Ensure backend response key matches your data
         this.productApiResponse = res?.ProductList || res?.data || [];
+      
       },
       error: (err) => {
         debugger;

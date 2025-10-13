@@ -1,12 +1,16 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {  Input, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Input, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { ProductService } from '../../../../../Service/product-service';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, EventEmitter, Output } from '@angular/core';
 
@@ -20,23 +24,29 @@ import { Component, EventEmitter, Output } from '@angular/core';
     MatButtonModule,
     MatIconModule,
     CommonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
-  providers: [DatePipe,
+  providers: [
+    DatePipe,
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top',  }
-    }
+      useValue: {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: 'snackbar-success',
+      },
+    },
   ],
   templateUrl: './product-form.html',
-  styleUrls: ['./product-form.css']
+  styleUrls: ['./product-form.css'],
 })
 export class ProductForm implements OnInit {
   @Output() formSubmitted = new EventEmitter<void>();
   form!: FormGroup;
   datePickerConfig!: Partial<BsDatepickerConfig>;
   private datePipe = inject(DatePipe);
-  // loadingIndicator 
+  // loadingIndicator
   loadingIndicator = signal<boolean>(false);
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);
@@ -48,15 +58,15 @@ export class ProductForm implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
     private snackBar: MatSnackBar,
-     public modalRef: BsModalRef        // ✅ inject modal reference
-  ) { }
+    public modalRef: BsModalRef // ✅ inject modal reference
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
 
     this.datePickerConfig = {
       containerClass: 'theme-blue',
-      dateInputFormat: 'DD-MM-YYYY'
+      dateInputFormat: 'DD-MM-YYYY',
     };
   }
 
@@ -72,7 +82,12 @@ export class ProductForm implements OnInit {
   // Submit form for "Add" action only
   onAdd(): void {
     if (this.form.invalid) {
-      this.snackBar.open('Please fill all required fields!', 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
+      this.snackBar.open('Please fill all required fields!', 'Close', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-success'],
+      });
       return;
     }
 
@@ -82,24 +97,39 @@ export class ProductForm implements OnInit {
 
     this.productService.saveProduct('Add', formValue).subscribe({
       next: (res: any) => {
-        if(res.Code === '0'){
-            this.snackBar.open(res.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
-            this.formSubmitted.emit();
-        }else{
+        if (res.Code === '0') {
+          this.snackBar.open(res.Reason, '', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.formSubmitted.emit();
+        } else {
           console.log('Add API Response:', res);
-        this.snackBar.open(res.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-success'] });
-        this.form.reset();
-        this.productService.loadProducts();
-        this.formSubmitted.emit();
+          setTimeout(() => {
+            this.snackBar.open(res.Reason, 'Close', {
+              duration: 5000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success'],
+            });
+          }, 600);
+          this.form.reset();
+          this.productService.loadProducts();
+          this.formSubmitted.emit();
         }
       },
       error: (err) => {
         console.error('Add API Error:', err);
-         this.snackBar.open(err.Reason, '', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+        this.snackBar.open(err.Reason, '', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
       },
       complete: () => this.setLoadingIndicator(false),
     });
   }
-  
-
 }

@@ -1,17 +1,20 @@
-
 import { ProductService } from './../../../../Service/product-service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, input, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ColumnMode, DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ContentHeader } from "../../../../widgets/content-header/content-header";
-import { MatButtonModule } from "@angular/material/button";
+import { ContentHeader } from '../../../../widgets/content-header/content-header';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ProductForm } from "./product-form/product-form";
+import { ProductForm } from './product-form/product-form';
 import { ProductInterface } from '../../../../interface/product-interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
@@ -27,19 +30,20 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     CommonModule,
     FormsModule,
     MatSnackBarModule,
-    SweetAlert2Module
+    SweetAlert2Module,
   ],
-  providers: [BsModalService, DatePipe,
-        {
+  providers: [
+    BsModalService,
+    DatePipe,
+    {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top' }
-    }
+      useValue: { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top' },
+    },
   ],
   templateUrl: './products.html',
-  styleUrls: ['./products.css']
+  styleUrls: ['./products.css'],
 })
 export class Products implements OnInit {
-
   tableSignal = viewChild<DatatableComponent>(DatatableComponent);
 
   datePickerConfig!: Partial<BsDatepickerConfig>;
@@ -51,19 +55,19 @@ export class Products implements OnInit {
   // Title of the page
   title = 'Product Master';
 
-  // DataType of the product get api 
+  // DataType of the product get api
   product = signal<ProductInterface[]>([]);
 
-  // loadingIndicator 
+  // loadingIndicator
   loadingIndicator = signal<boolean>(false);
 
-  // modal 
+  // modal
   modalRef = signal<BsModalRef | null>(null);
 
   // modal
   private modalService = inject(BsModalService);
 
-  //Datatable 
+  //Datatable
   columnMode = ColumnMode;
 
   //check card for component reusability
@@ -74,10 +78,7 @@ export class Products implements OnInit {
   }
 
   // inject the ProductService class in Products.ts.
-  constructor(
-    private productService: ProductService,
-    private snackBar: MatSnackBar
-  ) { }
+  constructor(private productService: ProductService, private snackBar: MatSnackBar) {}
 
   // ngOnInit for get api call on life cycle event
   ngOnInit() {
@@ -85,8 +86,13 @@ export class Products implements OnInit {
 
     this.datePickerConfig = {
       containerClass: 'theme-blue',
-      dateInputFormat: 'DD-MM-YYYY'
+      dateInputFormat: 'DD-MM-YYYY',
     };
+
+    // Wait for products to load (assuming service updates productApiResponse)
+    setTimeout(() => {
+      this.temp.set(this.productService.productApiResponse);
+    }, 500);
   }
 
   //get for getting api data and use in products.html by keywords(products)
@@ -114,18 +120,33 @@ export class Products implements OnInit {
 
     this.productService.saveProduct('Edit', row).subscribe({
       next: (response) => {
-       if(response.Code === '0'){
-        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
-       }else{
-         console.log('Edit response:', response);
-        row.isEditable = false;
-        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-warning'] });
-        this.productService.loadProducts(); // refresh data after edit
-       }
+        if (response.Code === '0') {
+          this.snackBar.open(response.Reason, 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-warning'],
+          });
+        } else {
+          console.log('Edit response:', response);
+          row.isEditable = false;
+          this.snackBar.open(response.Reason, 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-warning'],
+          });
+          this.productService.loadProducts(); // refresh data after edit
+        }
       },
       error: (err) => {
         console.error('Edit API error:', err);
-        this.snackBar.open(err.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
+        this.snackBar.open(err.Reason, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
       },
       complete: () => this.setLoadingIndicator(false),
     });
@@ -145,17 +166,31 @@ export class Products implements OnInit {
 
     this.productService.saveProduct('Delete', row).subscribe({
       next: (response: any) => {
-        if(response.code === '0'){
-          this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
-        }else{
+        if (response.code === '0') {
+          this.snackBar.open(response.Reason, 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          });
+        } else {
           console.log('Delete response:', response);
-        this.snackBar.open(response.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',  panelClass: ['snackbar-error'] });
-        this.productService.loadProducts(); // refresh list after delete
+          this.snackBar.open(response.Reason, 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          });
+          this.productService.loadProducts(); // refresh list after delete
         }
       },
       error: (err) => {
         console.error('Delete API error:', err);
-        this.snackBar.open(err.Reason, 'Close', { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top',});
+        this.snackBar.open(err.Reason, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
       },
       complete: () => this.setLoadingIndicator(false),
     });
@@ -182,23 +217,25 @@ export class Products implements OnInit {
     this.modalRef()?.hide();
   }
 
+
   onFilterChange(event: any) {
-    console.log(event.target.value);
-    const val = event.target.value.toLowerCase();
+  const val = (event.target.value || '').toLowerCase();
 
-    const filter = this.temp().filter((item)=>{
-      return item?.ProductName.toLocaleLowerCase().indexOf(val) !== -1 ||
-      item.Description.toLocaleUpperCase().indexOf(val) !== -1 || 
-      !val;
-    });
+  const data = this.temp(); // original data
 
-    // Update the filtered data in the ProductService or use a local signal
-    this.productService.productApiResponse = filter;
+  if (!data || data.length === 0) {
+    console.warn('No data in temp() to filter');
+    return;
   }
 
+  const filtered = data.filter((item) => {
+    const name = item?.ProductName?.toLowerCase() || '';
+    const desc = item?.Description?.toLowerCase() || '';
+    return name.includes(val) || desc.includes(val);
+  });
 
-
-
+  this.productService.productApiResponse = val ? filtered : data;
+}
 
 
 }

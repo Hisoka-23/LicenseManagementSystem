@@ -27,7 +27,7 @@ export const MENU_ITEMS = [
             },
             {
                 label: 'Product',
-                icon: 'fa-solid fa-people-line',
+                icon: 'fa-solid fa-box-open',
                 route: 'products',
             }
         ]

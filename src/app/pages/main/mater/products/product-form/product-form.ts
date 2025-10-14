@@ -1,3 +1,4 @@
+import { ConfigColumn } from './../../../../../interface/config-column';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Input, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -43,16 +44,27 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class ProductForm implements OnInit {
   @Output() formSubmitted = new EventEmitter<void>();
+
   form!: FormGroup;
+
   datePickerConfig!: Partial<BsDatepickerConfig>;
+
   private datePipe = inject(DatePipe);
+
   // loadingIndicator
   loadingIndicator = signal<boolean>(false);
+
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);
   }
 
   isEditMode = false;
+
+  ConfigColumn = signal<ConfigColumn[]>([]);
+
+  get configration() {
+    return this.productService.productConfigColumnApiResponse;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -73,9 +85,8 @@ export class ProductForm implements OnInit {
   /** Initialize form */
   initForm(): void {
     this.form = this.fb.group({
-      ProductCode: ['0'],
-      ProductName: ['', Validators.required],
-      Description: ['', Validators.required],
+      ProductName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      Description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
     });
   }
 

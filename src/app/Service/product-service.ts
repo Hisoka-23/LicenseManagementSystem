@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductInterface } from './../interface/product-interface';
+import { ConfigColumn } from '../interface/config-column';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class ProductService {
   private apiUrl1 = 'https://essweb.in/API/GetCommonApiWithParaList';
 
   productApiResponse: ProductInterface[] = [];
+
+  productConfigColumnApiResponse: ConfigColumn[] = [];
 
   // Get Product List API (View Action)
   getProducts(): Observable<any> {
@@ -42,6 +45,7 @@ export class ProductService {
         console.log('Product API Response:', res);
         // Ensure backend response key matches your data
         this.productApiResponse = res?.ProductList || res?.data || [];
+        this.productConfigColumnApiResponse = res?.ConfigColumn || res?.data || [];
       
       },
       error: (err) => {

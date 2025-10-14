@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onAdd()">
   <div class="row g-4 mx-4">
-
+    
     <!-- Product Code -->
     <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
       <label for="ProductCode">Product Code <span class="error-color">*</span></label>
@@ -20,7 +20,7 @@
     </div> -->
 
     <!-- Product Name -->
-    <div class="form-group col-xl-6 col-sm-6 col-12">
+    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
       <label for="ProductName">Product Name <span class="error-color">*</span></label>
       <input
         id="ProductName"
@@ -35,10 +35,10 @@
       >
         Product Name is required.
       </small>
-    </div>
+    </div> -->
 
     <!-- Description -->
-    <div class="form-group col-xl-6 col-sm-6 col-12">
+    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
       <label for="Description">Description <span class="error-color">*</span></label>
       <textarea
         id="Description"
@@ -53,7 +53,57 @@
       >
         Description is required.
       </small>
-    </div>
+    </div> -->
+
+    <!-- Product Name -->
+
+    <ng-container *ngFor="let col of configration">
+      <div class="form-group col-xl-6 col-sm-6 col-12" *ngIf="col.Column_Status === 'Show'">
+        <label [for]="col.Column_Name">
+          {{ col.ColumnLabel }}
+          <span *ngIf="col.IsRequired === 'YES'" class="error-color">*</span>
+        </label>
+        <input
+          [id]="col.Column_Name"
+          type="text"
+          class="form-control"
+          [placeholder]="col.ToolTipText"
+          [formControlName]="col.Column_Name"
+          [required]="col.IsRequired === 'YES'"
+        />
+        <!-- Required -->
+        <small
+          *ngIf="form.get(col.Column_Name)?.invalid && form.get(col.Column_Name)?.touched"
+          class="text-danger"
+        >
+          {{ col.ColumnLabel }} is required.
+        </small>
+
+        <br />
+
+        <!-- Min Length -->
+        <small
+          *ngIf="
+            form.get(col.Column_Name)?.hasError('minlength') && form.get(col.Column_Name)?.touched
+          "
+          class="text-danger"
+        >
+          Minimun {{ col.Min_Length }} characters required.
+        </small>
+
+        <br />
+
+        <!-- Max Length -->
+        <small
+          *ngIf="
+            form.get(col.Column_Name)?.hasError('maxlength') && form.get(col.Column_Name)?.touched
+          "
+          class="text-danger"
+        >
+          Maximun {{ col.Max_Length }} characters required
+        </small>
+      </div>
+    </ng-container>
 
     <!-- Active Since -->
     <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
@@ -94,16 +144,12 @@
       </small>
     </div> -->
 
-        <!-- Submit Button -->
-        <div class="box-footer mt-4 d-flex justify-content-center">
-        <button
-          mat-raised-button
-          color="accent"
-        >
-          <mat-icon *ngIf="!loadingIndicator()">upload</mat-icon>
-          <span *ngIf="!loadingIndicator()">{{ 'Submit' }}</span>
-        </button>
+    <!-- Submit Button -->
+    <div class="box-footer mt-4 d-flex justify-content-center">
+      <button mat-raised-button color="accent">
+        <mat-icon *ngIf="!loadingIndicator()">upload</mat-icon>
+        <span *ngIf="!loadingIndicator()">{{ 'Submit' }}</span>
+      </button>
     </div>
-
   </div>
 </form>

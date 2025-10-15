@@ -84,9 +84,17 @@ export class ProductForm implements OnInit {
 
   /** Initialize form */
   initForm(): void {
-    this.form = this.fb.group({
-      ProductName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      Description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
+    this.form = this.fb.group({});
+    this.configration.forEach((col) => {
+      if (col.Column_Status === 'Show') {
+        const validators = [];
+
+        if (col.IsRequired === 'Y') validators.push(Validators.required);
+        if (col.Min_Length) validators.push(Validators.minLength(Number(col.Min_Length)));
+        if (col.Max_Length) validators.push(Validators.maxLength(Number(col.Max_Length)));
+
+        this.form.addControl(col.Column_Name, this.fb.control('', validators));
+      }
     });
   }
 

@@ -16,7 +16,8 @@
             "allowedCommonJsDependencies": [
             "file-saver",
             "lodash.isequal",
-            "quill-delta"
+            "quill-delta",
+            "sweetalert2"
           ],
             "browser": "src/main.ts",
             "polyfills": [

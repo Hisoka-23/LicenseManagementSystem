@@ -72,14 +72,18 @@
           [required]="col.IsRequired === 'YES'"
         />
         <!-- Required -->
+         <div
+      *ngIf="
+        form.get(col.Column_Name)?.invalid &&
+        (form.get(col.Column_Name)?.dirty || form.get(col.Column_Name)?.touched)
+      "
+    >
         <small
-          *ngIf="form.get(col.Column_Name)?.invalid && form.get(col.Column_Name)?.touched"
+          *ngIf="form.get(col.Column_Name)?.hasError('required') && form.get(col.Column_Name)?.touched"
           class="text-danger"
         >
           {{ col.ColumnLabel }} is required.
         </small>
-
-        <br />
 
         <!-- Min Length -->
         <small
@@ -91,8 +95,6 @@
           Minimun {{ col.Min_Length }} characters required.
         </small>
 
-        <br />
-
         <!-- Max Length -->
         <small
           *ngIf="
@@ -102,6 +104,7 @@
         >
           Maximun {{ col.Max_Length }} characters required
         </small>
+        </div>
       </div>
     </ng-container>
 

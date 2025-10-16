@@ -1,6 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onAdd()">
   <div class="row g-4 mx-4">
-    
     <!-- Product Code -->
     <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
       <label for="ProductCode">Product Code <span class="error-color">*</span></label>
@@ -55,15 +54,44 @@
       </small>
     </div> -->
 
-    <!-- Product Name -->
-
+    <!-- Product form Dynamicly getting form configration -->
     <ng-container *ngFor="let col of configration">
       <div class="form-group col-xl-6 col-sm-6 col-12" *ngIf="col.Column_Status === 'Show'">
         <label [for]="col.Column_Name">
           {{ col.ColumnLabel }}
           <span *ngIf="col.IsRequired === 'YES'" class="error-color">*</span>
         </label>
+
+
+<!-- 
+<div *ngIf="col.ColumnType === 'List'; else normalInputField">
+  <ngx-selector
+    [id]="col.Column_Name"
+    type="text"
+    class="form-control"
+    [formControlName]="col.Column_Name"
+    [items]="col.Options"   
+    [placeholder]="col.ToolTipText">
+  </ngx-selector>
+</div> -->
+
+
+<!-- <ng-template #normalInputField>
+  <input
+    [id]="col.Column_Name"
+    type="text"
+    class="form-control"
+    [placeholder]="col.ToolTipText"
+    [formControlName]="col.Column_Name"
+    [required]="col.IsRequired === 'YES'"
+  />
+
+</ng-template> -->
+
+
+        <!-- working code -->
         <input
+          #normalInputfilde
           [id]="col.Column_Name"
           type="text"
           class="form-control"
@@ -71,39 +99,23 @@
           [formControlName]="col.Column_Name"
           [required]="col.IsRequired === 'YES'"
         />
-        <!-- Required -->
-         <div
-      *ngIf="
-        form.get(col.Column_Name)?.invalid &&
-        (form.get(col.Column_Name)?.dirty || form.get(col.Column_Name)?.touched)
-      "
-    >
-        <small
-          *ngIf="form.get(col.Column_Name)?.hasError('required') && form.get(col.Column_Name)?.touched"
-          class="text-danger"
-        >
-          {{ col.ColumnLabel }} is required.
-        </small>
 
-        <!-- Min Length -->
-        <small
-          *ngIf="
-            form.get(col.Column_Name)?.hasError('minlength') && form.get(col.Column_Name)?.touched
-          "
-          class="text-danger"
-        >
-          Minimun {{ col.Min_Length }} characters required.
-        </small>
+        <!-- Error Validation  -->
+        <div *ngIf="form.get(col.Column_Name)?.invalid && (form.get(col.Column_Name)?.dirty || form.get(col.Column_Name)?.touched)">
+          <!-- Required -->
+          <small *ngIf="form.get(col.Column_Name)?.hasError('required') && form.get(col.Column_Name)?.touched" class="text-danger">
+            {{ col.ColumnLabel }} is required.
+          </small>
 
-        <!-- Max Length -->
-        <small
-          *ngIf="
-            form.get(col.Column_Name)?.hasError('maxlength') && form.get(col.Column_Name)?.touched
-          "
-          class="text-danger"
-        >
-          Maximun {{ col.Max_Length }} characters required
-        </small>
+          <!-- Min Length -->
+          <small *ngIf="form.get(col.Column_Name)?.hasError('minlength') && form.get(col.Column_Name)?.touched" class="text-danger" >
+            Minimun {{ col.Min_Length }} characters required.
+          </small>
+
+          <!-- Max Length -->
+          <small *ngIf="form.get(col.Column_Name)?.hasError('maxlength') && form.get(col.Column_Name)?.touched" class="text-danger" >
+            Maximun {{ col.Max_Length }} characters required
+          </small>
         </div>
       </div>
     </ng-container>

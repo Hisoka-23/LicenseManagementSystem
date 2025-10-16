@@ -217,25 +217,22 @@ export class Products implements OnInit {
     this.modalRef()?.hide();
   }
 
-
   onFilterChange(event: any) {
-  const val = (event.target.value || '').toLowerCase();
+    const val = (event.target.value || '').toLowerCase();
 
-  const data = this.temp(); // original data
+    const data = this.temp(); // original data
 
-  if (!data || data.length === 0) {
-    console.warn('No data in temp() to filter');
-    return;
+    if (!data || data.length === 0) {
+      console.warn('No data in temp() to filter');
+      return;
+    }
+
+    const filtered = data.filter((item) => {
+      const name = item?.ProductName?.toLowerCase() || '';
+      const desc = item?.Description?.toLowerCase() || '';
+      return name.includes(val) || desc.includes(val);
+    });
+
+    this.productService.productApiResponse = val ? filtered : data;
   }
-
-  const filtered = data.filter((item) => {
-    const name = item?.ProductName?.toLowerCase() || '';
-    const desc = item?.Description?.toLowerCase() || '';
-    return name.includes(val) || desc.includes(val);
-  });
-
-  this.productService.productApiResponse = val ? filtered : data;
-}
-
-
 }

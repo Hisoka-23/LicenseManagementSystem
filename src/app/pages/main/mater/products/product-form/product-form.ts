@@ -1,6 +1,6 @@
 import { ConfigColumn } from './../../../../../interface/config-column';
-import { CommonModule, DatePipe } from '@angular/common';
-import { Input, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { CommonModule, DatePipe, NgIfContext } from '@angular/common';
+import { Input, OnInit, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,6 +53,7 @@ export class ProductForm implements OnInit {
 
   // loadingIndicator
   loadingIndicator = signal<boolean>(false);
+normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
 
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);

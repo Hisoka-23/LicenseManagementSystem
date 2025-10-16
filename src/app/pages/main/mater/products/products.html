@@ -1,20 +1,17 @@
-<div [class]="isCard() ? '' : 'mx-4 my-1 border-0' ">
+<div [class]="isCard() ? '' : 'mx-4 my-1 border-0'">
+  @if(!isCard){ }
 
-    @if(!isCard){
-        
-    }
+  <app-content-header title="Product Master" [subRoute]="title"></app-content-header>
 
-    <app-content-header title="Product Master" [subRoute]="title"></app-content-header>
+  <div class="d-flex align-items-center justify-content-end">
+    <input
+      type="text"
+      placeholder="Search..."
+      class="form-control border-white px-2 py-1 search-table-input"
+      (input)="onFilterChange($event)"
+    />
 
-    <div class="d-flex align-items-center justify-content-end">
-        <input 
-            type="text"
-            placeholder="Search..."
-            class="form-control border-white px-2 py-1 search-table-input"
-            (input)="onFilterChange($event)"
-        >
-
-        <!-- <button 
+    <!-- <button 
             class="p-0 border-0 ms-2" 
             mat-icon-button
             
@@ -24,54 +21,42 @@
 
         </button> -->
 
-        <button 
-            class="mx-2"
-            mat-raised-button
-            color="accent"
-            (click)="openProductFormModal(productFormTemplate)"
-        >
+    <button class="mx-2" mat-raised-button color="accent" (click)="openProductFormModal(productFormTemplate)" >
+      <mat-icon aria-hidden="false" aria-label="icon" fontIcon="add"></mat-icon>
+      Add Product
+    </button>
+  </div>
 
-            <mat-icon
-                aria-hidden="false"
-                aria-label="icon"
-                fontIcon="add"
-            >
-            </mat-icon>
-            Add Product
+  <div #productTableContainer class="col-md-12 mb-3 mt-1">
+    <ngx-datatable
+      #productTable
+      class="material rounded align-items-center"
+      [rows]="products"
+      [columnMode]="columnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [scrollbarH]="false"
+      [loadingIndicator]="loadingIndicator()"
+      rowHeight="auto"
+      [count]="products.length"
+      [offset]="0"
+      [limit]="isCard() ? 3 : 6"
+      (page)="onPageChange($event)"
+      (sort)="onSortChange($event)"
+    >
+      <!-- Serial Number Column -->
+      <ngx-datatable-column 
+        name="S.No" 
+        [width]="70" 
+        headerClass="text-start"
+    >
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          {{ rowIndex + 1 }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        </button>
-
-    </div>
-
-    <div #productTableContainer class="col-md-12 mb-3 mt-1">
-
-        <ngx-datatable 
-            #productTable
-            class="material rounded align-items-center"
-            [rows]="products"
-            [columnMode]="columnMode.force"
-            [headerHeight]="50"
-            [footerHeight]="50"
-            [scrollbarH]="false"
-            [loadingIndicator]="loadingIndicator()"
-            rowHeight="auto"
-            [count]="products.length"
-            [offset]="0"
-            [limit]="isCard() ? 3 : 6"
-            (page)="onPageChange($event)"
-            (sort)="onSortChange($event)"
-            >
-
-            <!-- Serial Number Column -->
-            <ngx-datatable-column name="S.No" [width]="70" headerClass="text-start">
-            <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                {{ rowIndex + 1 }}
-            </ng-template>
-            </ngx-datatable-column>
-
-
-            <!-- Product Code -->
-            <!-- <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
+      <!-- Product Code -->
+      <!-- <ngx-datatable-column prop="ProductCode" name="Product Code" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else codeView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.ProductCode" />
@@ -83,34 +68,46 @@
                 </ng-template>
             </ngx-datatable-column> -->
 
-            <!-- Product Name -->
-            <ngx-datatable-column prop="ProductName" name="Product Name" [sortable]="true" headerClass="text-start" [width]="100">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <ng-container *ngIf="row.isEditable; else nameView">
-                        <input class="form-control form-control-sm" [(ngModel)]="row.ProductName" />
-                    </ng-container>
+      <!-- Product Name -->
+      <ngx-datatable-column
+        prop="ProductName"
+        name="Product Name"
+        [sortable]="true"
+        headerClass="text-start"
+        [width]="100"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ng-container *ngIf="row.isEditable; else nameView">
+            <input class="form-control form-control-sm" [(ngModel)]="row.ProductName" />
+          </ng-container>
 
-                    <ng-template #nameView>
-                        {{ row.ProductName }}
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
+          <ng-template #nameView>
+            {{ row.ProductName }}
+          </ng-template>
+        </ng-template>
+      </ngx-datatable-column>
 
-            <!-- Description -->
-            <ngx-datatable-column prop="Description" name="Description" [sortable]="false" headerClass="text-start" [width]="250">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <ng-container *ngIf="row.isEditable; else descView">
-                        <input class="form-control form-control-sm" [(ngModel)]="row.Description" />
-                    </ng-container>
+      <!-- Description -->
+      <ngx-datatable-column
+        prop="Description"
+        name="Description"
+        [sortable]="false"
+        headerClass="text-start"
+        [width]="250"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ng-container *ngIf="row.isEditable; else descView">
+            <input class="form-control form-control-sm" [(ngModel)]="row.Description" />
+          </ng-container>
 
-                    <ng-template #descView>
-                        {{ row.Description }}
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
+          <ng-template #descView>
+            {{ row.Description }}
+          </ng-template>
+        </ng-template>
+      </ngx-datatable-column>
 
-            <!-- Active Since -->
-            <!-- <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
+      <!-- Active Since -->
+      <!-- <ngx-datatable-column prop="ActiveSince" name="Active Since" headerClass="text-center" [width]="isCard() ? 120: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else sinceView">
                         <input 
@@ -129,17 +126,20 @@
                 </ng-template>
             </ngx-datatable-column> -->
 
+      <ngx-datatable-column
+        prop="ActiveSince"
+        name="Active Since"
+        [sortable]="true"
+        headerClass="text-start"
+        [width]="isCard() ? 120 : 150"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.ActiveSince }}
+        </ng-template>
+      </ngx-datatable-column>
 
-            <ngx-datatable-column prop="ActiveSince" name="Active Since" [sortable]="true" headerClass="text-start" [width]="isCard() ? 120: 150">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.ActiveSince }}
-            </ng-template>
-            </ngx-datatable-column>
-
-
-
-            <!-- Row Status -->
-            <!-- <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
+      <!-- Row Status -->
+      <!-- <ngx-datatable-column prop="Rowstatus" name="Row Status" headerClass="text-center" cellClass="text-center" [width]="isCard() ? 100: 150">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isEditable; else statusView">
                         <input class="form-control form-control-sm" [(ngModel)]="row.Rowstatus" />
@@ -151,50 +151,48 @@
                 </ng-template>
             </ngx-datatable-column> -->
 
-            <!-- Action -->
-            <ngx-datatable-column name="Action" headerClass="text-start" cellClass="text-start" [sortable]="false" [width]="isCard() ? 100 : 150">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <ng-container *ngIf="row.isEditable; else actionView">
-                        <button class="btn btn-sm btn-success me-1" (click)="saveRow(row)">
-                        <i class="fa fa-check"></i>
-                        </button>
-                        <button class="btn btn-sm btn-secondary" (click)="cancelEdit(row)">
-                        <i class="fa fa-times"></i>
-                        </button>
-                    </ng-container>
+      <!-- Action -->
+      <ngx-datatable-column
+        name="Action"
+        headerClass="text-start"
+        cellClass="text-start"
+        [sortable]="false"
+        [width]="isCard() ? 100 : 150"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ng-container *ngIf="row.isEditable; else actionView">
+            <button class="btn btn-sm btn-success me-1" (click)="saveRow(row)">
+              <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-secondary" (click)="cancelEdit(row)">
+              <i class="fa fa-times"></i>
+            </button>
+          </ng-container>
 
-                    <ng-template #actionView>
-                        <button class="btn btn-sm btn-primary me-1" (click)="editRow(row)">
-                        <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" (click)="deleteRow(row)">
-                        <i class="fa fa-trash"></i>
-                        </button>
-                    </ng-template>
-                </ng-template>
-            </ngx-datatable-column>
+          <ng-template #actionView>
+            <button class="btn btn-sm btn-primary me-1" (click)="editRow(row)">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteRow(row)">
+              <i class="fa fa-trash"></i>
+            </button>
+          </ng-template>
+        </ng-template>
+      </ngx-datatable-column>
 
-        </ngx-datatable>
-        
-
-    </div>
-
+    </ngx-datatable>
+  </div>
 </div>
 
 <!-- Product Model Pop-up -->
 <ng-template #productFormTemplate>
-    <div class="modal-header d-flex align-items-center justify-content-between">
-        <h4 class="modal-title mb-0">Product</h4>
-        <button
-            type="button"
-            class="btn-close close"
-            aria-label="Close"
-            (click)="closeUserModal()"
-        >
-            <span aria-hidden="true" class="visually-hidden">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <app-product-form (formSubmitted)="closeUserModal()"></app-product-form>
-    </div>
+  <div class="modal-header d-flex align-items-center justify-content-between">
+    <h4 class="modal-title mb-0">Product</h4>
+    <button type="button" class="btn-close close" aria-label="Close" (click)="closeUserModal()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-product-form (formSubmitted)="closeUserModal()"></app-product-form>
+  </div>
 </ng-template>

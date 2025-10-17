@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductInterface } from './../interface/product-interface';
 import { ConfigColumn } from '../interface/config-column';
+import { ProductMasterComblistTs } from '../interface/product-master-comblist.ts';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class ProductService {
   productApiResponse: ProductInterface[] = [];
 
   productConfigColumnApiResponse: ConfigColumn[] = [];
+
+  productComboListApiRespose: ProductMasterComblistTs[] = [];
 
   // Get Product List API (View Action)
   getProducts(): Observable<any> {
@@ -38,14 +41,19 @@ export class ProductService {
   }
 
   loadProducts(): void {
-    debugger;
     this.getProducts().subscribe({
       next: (res) => {
-        debugger;
         console.log('Product API Response:', res);
         // Ensure backend response key matches your data
+
+        // Product list
         this.productApiResponse = res?.ProductList || res?.data || [];
+
+        // Column config
         this.productConfigColumnApiResponse = res?.ConfigColumn || res?.data || [];
+
+        // Combo list (map DisplayTest + DataValue)
+        this.productComboListApiRespose = res?.ComboList || res?.data || [];
       
       },
       error: (err) => {

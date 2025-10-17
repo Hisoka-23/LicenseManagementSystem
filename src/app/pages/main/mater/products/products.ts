@@ -10,11 +10,7 @@ import { ProductForm } from './product-form/product-form';
 import { ProductInterface } from '../../../../interface/product-interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBar,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({

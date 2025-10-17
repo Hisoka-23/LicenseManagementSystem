@@ -1,11 +1,17 @@
 import { ConfigColumn } from './../../../../../interface/config-column';
-import { CommonModule, DatePipe, NgIfContext } from '@angular/common';
-import { Input, OnInit, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import { OnInit, inject, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { NgxSelectModule } from 'ngx-select-ex';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductService } from '../../../../../Service/product-service';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
@@ -14,6 +20,8 @@ import {
 } from '@angular/material/snack-bar';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-product-form',
@@ -21,11 +29,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   imports: [
     ReactiveFormsModule,
     BsDatepickerModule,
-    NgxSelectModule,
     MatButtonModule,
     MatIconModule,
     CommonModule,
     MatSnackBarModule,
+    NgSelectModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
   providers: [
     DatePipe,
@@ -53,7 +63,7 @@ export class ProductForm implements OnInit {
 
   // loadingIndicator
   loadingIndicator = signal<boolean>(false);
-normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
+  //normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
 
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);
@@ -61,17 +71,25 @@ normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
 
   isEditMode = false;
 
-  ConfigColumn = signal<ConfigColumn[]>([]);
+  //ConfigColumn = signal<ConfigColumn[]>([]);
 
-  get configration() {
-    return this.productService.productConfigColumnApiResponse;
-  }
+  ConfigColumn: ConfigColumn[] = [];
+
+  comboList: { label: string; value: string }[] = [];
+
+  // get configration() {
+  //   return this.productService.productConfigColumnApiResponse;
+  // }
+
+  // get comboList1() {
+  //   return this.productService.productComboListApiRespose;
+  // }
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private snackBar: MatSnackBar,
-    public modalRef: BsModalRef // ✅ inject modal reference
+    public modalRef: BsModalRef
   ) {}
 
   ngOnInit(): void {
@@ -81,12 +99,35 @@ normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
       containerClass: 'theme-blue',
       dateInputFormat: 'DD-MM-YYYY',
     };
+
+    //Load Product configuration and ComboList
+    this.productService.getProducts().subscribe({
+      next: (res: any) => {
+        this.ConfigColumn = res?.ConfigColumn || [];
+        this.comboList = (res?.ComboList || []).map((item: any) => ({
+          label: item.DisplayText,
+          value: item.DataValue,
+        }));
+
+        this.initFormControls();
+
+        this.form = new FormGroup({});
+        this.ConfigColumn.forEach((col: any) => {
+          this.form.addControl(col.Column_Name, new FormControl(null)); // important
+        });
+      },
+      error: (err) => console.error('API', Error),
+    });
   }
 
-  /** Initialize form */
+  /* Initialize form */
   initForm(): void {
     this.form = this.fb.group({});
-    this.configration.forEach((col) => {
+  }
+
+  /* Dynamically add controls based on config */
+  initFormControls(): void {
+    this.ConfigColumn.forEach((col) => {
       if (col.Column_Status === 'Show') {
         const validators = [];
 

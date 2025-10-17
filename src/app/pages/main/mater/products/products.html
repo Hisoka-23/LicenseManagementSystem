@@ -49,6 +49,7 @@
         name="S.No" 
         [width]="70" 
         headerClass="text-start"
+        [sortable]="false"
     >
         <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
           {{ rowIndex + 1 }}
@@ -72,7 +73,7 @@
       <ngx-datatable-column
         prop="ProductName"
         name="Product Name"
-        [sortable]="true"
+        [sortable]="false"
         headerClass="text-start"
         [width]="100"
       >
@@ -129,7 +130,7 @@
       <ngx-datatable-column
         prop="ActiveSince"
         name="Active Since"
-        [sortable]="true"
+        [sortable]="false"
         headerClass="text-start"
         [width]="isCard() ? 120 : 150"
       >

@@ -1,4 +1,5 @@
 export interface ConfigColumn {
+comboList: any;
   Column_Seq: string;
   Column_Name: string;
   ColumnGroup: string;

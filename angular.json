@@ -45,7 +45,9 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/quill/dist/quill.snow.css",
-              "node_modules/quill/dist/quill.bubble.css"
+              "node_modules/quill/dist/quill.bubble.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css"
             ],
             "scripts": [
               "node_modules/admin-lte/dist/js/adminlte.min.js",

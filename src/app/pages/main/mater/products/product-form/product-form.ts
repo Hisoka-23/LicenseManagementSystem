@@ -53,18 +53,23 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./product-form.css'],
 })
 export class ProductForm implements OnInit {
+
+  //this method product.ts
   @Output() formSubmitted = new EventEmitter<void>();
 
   form!: FormGroup;
 
+  //date
   datePickerConfig!: Partial<BsDatepickerConfig>;
 
+  //inject date Pipi
   private datePipe = inject(DatePipe);
 
   // loadingIndicator
   loadingIndicator = signal<boolean>(false);
   //normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
 
+  // loading but not working
   setLoadingIndicator(value: boolean) {
     this.loadingIndicator.set(value);
   }

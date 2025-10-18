@@ -1,15 +1,15 @@
 :root{
     --background-color:#f4f4f4;
-    --primary-color:#6610f2;
+    --primary-color:#6C63FF;
     --secondary-color:#ff4b2b;
     --tertiary-color:#ff416c;
     --light-color: rgb(255, 245, 255);
     --dark-color: #333;
-    --danger-color:#dc3444;
+    --danger-color:#dc3545;
     --primary-light-color: #eee;
     --medium-color:#dfe0e1;
-    --success-color:#27bb4f;
-    --warning-color:#ffc409;
+    --success-color:#28a745;
+    --warning-color:#ffc107;
     --white-color:#fff;
     
     --font-size-xs: 0.7rem;

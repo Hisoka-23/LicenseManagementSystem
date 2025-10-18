@@ -6,7 +6,9 @@
 @import "./Theme/css/datatable.css";
 
 * {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    font-family:'Trebuchet ', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
+    /* font-family: 'Cookie'; */
+    /* font-family: 'Parisienne'; */
 }
 
 html, body {
@@ -22,4 +24,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     height: 50vh;
     overflow-x: auto;
 }
+
 

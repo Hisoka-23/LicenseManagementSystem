@@ -1,22 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onAdd()">
+
   <div class="row g-4 mx-4">
-    <!-- Product Code -->
-    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label for="ProductCode">Product Code <span class="error-color">*</span></label>
-      <input
-        id="ProductCode"
-        type="text"
-        class="form-control"
-        placeholder="Enter Code"
-        formControlName="ProductCode"
-      />
-      <small
-        *ngIf="form.get('ProductCode')?.invalid && form.get('ProductCode')?.touched"
-        class="text-danger"
-      >
-        Product Code is required.
-      </small>
-    </div> -->
 
     <!-- Product Name -->
     <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
@@ -62,28 +46,77 @@
           <span *ngIf="col.IsRequired === 'YES'" class="error-color">*</span>
         </label>
 
-        <div *ngIf="col.ColumnType === 'List'; else normalInputField">
-          <!-- <select
-            class="form-control"
-            [formControlName]="col.Column_Name"
-            [id]="col.Column_Name"
-          >
-            <option value="">Select {{ col.ColumnLabel }}</option>
-            <option *ngFor="let item of comboList" [value]="item.value">
-              {{ item.label }}
-            </option>
-          </select> -->
+        <div [ngSwitch]="col.ColumnType">
 
-          <!-- <ng-select
-            [items]="comboList"
-            bindLabel="name"
-            bindValue="id"
-            [formControlName]="col.Column_Name"
-            [clearable]="true"
-          >
-           <ng-option [value]="null" disabled>Select {{ col.ColumnLabel }}</ng-option>
-          </ng-select> -->
+          <!-- 1️ LIST -->
+          <ng-container *ngSwitchCase="'List'">
+            <ng-select
+              [items]="comboList"
+              [placeholder]="col.ToolTipText"
+              bindLabel="label" 
+              bindValue="value" 
+              [formControlName]="col.Column_Name"
+              [required]="'YES'===col.IsRequired"
+            >
+            </ng-select>
+          </ng-container>
 
+          <!-- 2️ DATE -->
+          <ng-container *ngSwitchCase="'Date'">
+            <input
+              [id]="col.Column_Name"
+              type="date"
+              class="form-control"
+              [placeholder]="col.ToolTipText"
+              [formControlName]="col.Column_Name"
+              [required]="col.IsRequired === 'YES'"
+            />
+          </ng-container>
+
+          <!-- 3️ RADIO -->
+          <!-- <ng-container *ngSwitchCase="'Radio'">
+            <div *ngFor="let option of col.Options">
+              <input
+                type="radio"
+                [id]="col.Column_Name + '_' + option.value"
+                [value]="option.value"
+                [formControlName]="col.Column_Name"
+                [required]="col.IsRequired === 'YES'"
+              />
+              <label [for]="col.Column_Name + '_' + option.value">{{ option.label }}</label>
+            </div>
+          </ng-container> -->
+
+          <!-- 4️ CHECKBOX -->
+          <!-- <ng-container *ngSwitchCase="'Checkbox'">
+            <div *ngFor="let option of col.Options">
+              <input
+                type="checkbox"
+                [id]="col.Column_Name + '_' + option.value"
+                [value]="option.value"
+                (change)="onCheckboxChange($event, col.Column_Name)"
+              />
+              <label [for]="col.Column_Name + '_' + option.value">{{ option.label }}</label>
+            </div>
+          </ng-container> -->
+
+          <!-- 5️ DEFAULT (Input) -->
+          <ng-container *ngSwitchDefault>
+            <input
+              [id]="col.Column_Name"
+              type="text"
+              class="form-control"
+              [placeholder]="col.ToolTipText"
+              [formControlName]="col.Column_Name"
+              [required]="col.IsRequired === 'YES'"
+            />
+          </ng-container>
+
+        </div>
+
+        <!--<div *ngIf="col.ColumnType === 'List'; else normalInputField">
+
+          
           <ng-select
             [items]="comboList"
             [formControlName]="col.Column_Name"
@@ -92,7 +125,7 @@
           
         </div>
 
-        <!-- Normal Input -->
+        
         <ng-template #normalInputField>
           <input
             [id]="col.Column_Name"
@@ -102,93 +135,34 @@
             [formControlName]="col.Column_Name"
             [required]="col.IsRequired === 'YES'"
           />
-        </ng-template>
+        </ng-template>-->
 
         <!-- Error Validation  -->
-        <div
-          *ngIf="
-            form.get(col.Column_Name)?.invalid &&
-            (form.get(col.Column_Name)?.dirty || form.get(col.Column_Name)?.touched)
-          "
-        >
-          <!-- Required -->
-          <small
-            *ngIf="
-              form.get(col.Column_Name)?.hasError('required') && form.get(col.Column_Name)?.touched
-            "
-            class="text-danger"
-          >
+        <div *ngIf="form.get(col.Column_Name)?.invalid && (form.get(col.Column_Name)?.touched || form.get(col.Column_Name)?.dirty)">
+          <small *ngIf="form.get(col.Column_Name)?.errors?.['required']" class="text-danger">
             {{ col.ColumnLabel }} is required.
           </small>
-
-          <!-- Min Length -->
-          <small
-            *ngIf="
-              form.get(col.Column_Name)?.hasError('minlength') && form.get(col.Column_Name)?.touched
-            "
-            class="text-danger"
-          >
-            Minimun {{ col.Min_Length }} characters required.
+          <small *ngIf="form.get(col.Column_Name)?.errors?.['minlength']" class="text-danger">
+            Minimum {{ col.Min_Length }} characters required.
           </small>
-
-          <!-- Max Length -->
-          <small
-            *ngIf="
-              form.get(col.Column_Name)?.hasError('maxlength') && form.get(col.Column_Name)?.touched
-            "
-            class="text-danger"
-          >
-            Maximun {{ col.Max_Length }} characters required
+          <small *ngIf="form.get(col.Column_Name)?.errors?.['maxlength']" class="text-danger">
+            Maximum {{ col.Max_Length }} characters allowed.
           </small>
         </div>
+
       </div>
     </ng-container>
 
-    <!-- Active Since -->
-    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label for="ActiveSince">Active Since <span class="error-color">*</span></label>
-      <input
-        id="ActiveSince"
-        type="text"
-        class="form-control"
-        placeholder="Select Activation Date"
-        formControlName="ActiveSince"
-        bsDatepicker
-        [bsConfig]="datePickerConfig"
-        autocomplete="off"
-      />
-      <small
-        *ngIf="form.get('ActiveSince')?.invalid && form.get('ActiveSince')?.touched"
-        class="text-danger"
-      >
-        Activation date is required.
-      </small>
-    </div> -->
-
-    <!-- Row Status -->
-    <!-- <div class="form-group col-xl-6 col-sm-6 col-12">
-      <label for="Rowstatus">Row Status <span class="error-color">*</span></label>
-      <input
-        id="Rowstatus"
-        type="text"
-        class="form-control"
-        placeholder="Enter Row Status"
-        formControlName="Rowstatus"
-      />
-      <small
-        *ngIf="form.get('Rowstatus')?.invalid && form.get('Rowstatus')?.touched"
-        class="text-danger"
-      >
-        Row Status is required.
-      </small>
-    </div> -->
 
     <!-- Submit Button -->
     <div class="box-footer mt-4 d-flex justify-content-center">
-      <button mat-raised-button color="accent">
+      <button type="submit" mat-raised-button color="accent">
         <mat-icon *ngIf="!loadingIndicator()">upload</mat-icon>
         <span *ngIf="!loadingIndicator()">{{ 'Submit' }}</span>
       </button>
     </div>
+
   </div>
+  
 </form>
+

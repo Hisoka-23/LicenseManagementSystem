@@ -53,11 +53,10 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./product-form.css'],
 })
 export class ProductForm implements OnInit {
+  form!: FormGroup;
 
   //this method product.ts
   @Output() formSubmitted = new EventEmitter<void>();
-
-  form!: FormGroup;
 
   //date
   datePickerConfig!: Partial<BsDatepickerConfig>;
@@ -100,6 +99,8 @@ export class ProductForm implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
+    // this.form = this.fb.group({});
+
     this.datePickerConfig = {
       containerClass: 'theme-blue',
       dateInputFormat: 'DD-MM-YYYY',
@@ -114,12 +115,9 @@ export class ProductForm implements OnInit {
           value: item.DataValue,
         }));
 
-        this.initFormControls();
+        //this.comboList = res?.ComboList || [];
 
-        this.form = new FormGroup({});
-        this.ConfigColumn.forEach((col: any) => {
-          this.form.addControl(col.Column_Name, new FormControl(null)); // important
-        });
+        this.initFormControls();
       },
       error: (err) => console.error('API', Error),
     });
@@ -128,34 +126,58 @@ export class ProductForm implements OnInit {
   /* Initialize form */
   initForm(): void {
     this.form = this.fb.group({});
+
+    // this.form = new FormGroup({});
+    // this.ConfigColumn.forEach((col: any) => {
+    //   this.form.addControl(col.Column_Name, new FormControl(null)); // important
+    // });
   }
 
   /* Dynamically add controls based on config */
   initFormControls(): void {
-    this.ConfigColumn.forEach((col) => {
+    this.ConfigColumn.forEach((col: any) => {
       if (col.Column_Status === 'Show') {
         const validators = [];
+
+        let initialValue: any;
 
         if (col.IsRequired === 'Y') validators.push(Validators.required);
         if (col.Min_Length) validators.push(Validators.minLength(Number(col.Min_Length)));
         if (col.Max_Length) validators.push(Validators.maxLength(Number(col.Max_Length)));
 
-        this.form.addControl(col.Column_Name, this.fb.control('', validators));
+        if (col.ColumnType === 'List') {
+          initialValue = null;
+        } else {
+          initialValue = '';
+        }
+
+        // Only add the control if it doesn't exist already
+        if (!this.form.contains(col.Column_Name)) {
+          this.form.addControl(col.Column_Name, this.fb.control(initialValue, validators));
+        }
       }
     });
   }
 
   // Submit form for "Add" action only
   onAdd(): void {
+    console.log('Submitting button clicked...!!');
+
     if (this.form.invalid) {
-      this.snackBar.open('Please fill all required fields!', 'Close', {
-        duration: 5000,
+      //Mark all fields as touched so validation errors show
+      this.form.markAllAsTouched();
+
+        this.snackBar.open('Please fill all required fields!', 'Close', {
+        duration: 2000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['snackbar-success'],
+        panelClass: ['snackbar-error'],
       });
+
       return;
     }
+
+    console.log('Form is Valid - proceeding to api call...!!');
 
     this.setLoadingIndicator(true);
 
@@ -165,7 +187,7 @@ export class ProductForm implements OnInit {
       next: (res: any) => {
         if (res.Code === '0') {
           this.snackBar.open(res.Reason, '', {
-            duration: 5000,
+            duration: 3000,
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass: ['snackbar-success'],
@@ -175,12 +197,12 @@ export class ProductForm implements OnInit {
           console.log('Add API Response:', res);
           setTimeout(() => {
             this.snackBar.open(res.Reason, 'Close', {
-              duration: 5000,
+              duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'top',
               panelClass: ['snackbar-success'],
             });
-          }, 600);
+          }, 400);
           this.form.reset();
           this.productService.loadProducts();
           this.formSubmitted.emit();
@@ -189,7 +211,7 @@ export class ProductForm implements OnInit {
       error: (err) => {
         console.error('Add API Error:', err);
         this.snackBar.open(err.Reason, '', {
-          duration: 5000,
+          duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
           panelClass: ['snackbar-error'],
@@ -197,5 +219,19 @@ export class ProductForm implements OnInit {
       },
       complete: () => this.setLoadingIndicator(false),
     });
+  }
+
+  onCheckboxChange(event: any, controlName: string) {
+    const control = this.form.get(controlName);
+    const selectedValues = control?.value || [];
+
+    if (event.target.checked) {
+      selectedValues.push(event.target.value);
+    } else {
+      const index = selectedValues.indexOf(event.target.value);
+      if (index > -1) selectedValues.splice(index, 1);
+    }
+
+    control?.setValue(selectedValues);
   }
 }

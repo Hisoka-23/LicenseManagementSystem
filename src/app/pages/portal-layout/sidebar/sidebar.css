@@ -45,6 +45,8 @@ aside {
         border-radius: 5px;
     }
 
+    z-index: 997;
+
 }
 
 /* Sidebar styles */

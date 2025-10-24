@@ -2,14 +2,21 @@ body.fixed-header .app-header {
   position: fixed;
   top: 0;
   width: -webkit-fill-available;
-  z-index: 999;
+  z-index: 997;
 }
 
 body.fixed-footer .app-footer {
   position: fixed;
   bottom: 0;
   width: -webkit-fill-available;
-  z-index: 999;
+  z-index: 997;
+}
+
+body.fixed-sidebar .app-sidebar {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  z-index: 997;
 }
 
 [data-overlayscrollbars~=host], [data-overlayscrollbars-padding] {

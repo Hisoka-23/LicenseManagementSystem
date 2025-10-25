@@ -7,6 +7,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +23,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { debounceTime, map, switchMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-product-form',
@@ -145,6 +148,14 @@ export class ProductForm implements OnInit {
         if (col.Min_Length) validators.push(Validators.minLength(Number(col.Min_Length)));
         if (col.Max_Length) validators.push(Validators.maxLength(Number(col.Max_Length)));
 
+        // *** APPLY DUPLICATE VALIDATION HERE ***
+        // NOTE: Replace 'ProductName' with the actual Column_Name if different
+        if (col.Column_Name === 'ProductName') {
+          // Bind 'this' to the validator function so it can access 'productService'
+          validators.push(this.duplicateProductNameValidator.bind(this));
+        }
+        // ***************************************
+
         if (col.ColumnType === 'List') {
           initialValue = null;
         } else {
@@ -159,6 +170,35 @@ export class ProductForm implements OnInit {
     });
   }
 
+  // Inside ProductForm class
+
+  // ... (existing properties and constructor)
+
+  /**
+   * Custom synchronous validator to check for duplicate product names
+   * client-side against the currently loaded product list.
+   */
+  duplicateProductNameValidator(control: AbstractControl): { [key: string]: any } | null {
+    // Ensure the product list is available and we are not in edit mode
+    if (this.isEditMode || !this.productService.productApiResponse) {
+      return null;
+    }
+
+    const productName = control.value ? (control.value as string).trim().toLowerCase() : '';
+
+    if (!productName) {
+      return null; // Don't validate if empty (Validators.required handles this)
+    }
+
+    const isDuplicate = this.productService.productApiResponse.some(
+      (product) => (product.ProductName as string)?.trim().toLowerCase() === productName
+    );
+
+    return isDuplicate ? { duplicateProductName: true } : null;
+  }
+
+  // ... (rest of the class)
+
   // Submit form for "Add" action only
   onAdd(): void {
     console.log('Submitting button clicked...!!');
@@ -167,7 +207,18 @@ export class ProductForm implements OnInit {
       //Mark all fields as touched so validation errors show
       this.form.markAllAsTouched();
 
-        this.snackBar.open('Please fill all required fields!', 'Close', {
+      // Check specifically for client-side duplicate validation error
+      if (this.form.get('ProductName')?.hasError('duplicateProductName')) {
+        this.snackBar.open('Product Name already exists!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
+        return; // Stop processing and keep the modal open
+      }
+
+      this.snackBar.open('Please fill all required fields!', 'Close', {
         duration: 2000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -193,7 +244,10 @@ export class ProductForm implements OnInit {
             panelClass: ['snackbar-success'],
           });
           this.formSubmitted.emit();
+          this.modalRef.hide(); // <-- Close modal ONLY on success
         } else {
+          // *** API FAILURE/DUPLICATE (Server-side check) ***
+          console.log('Add API Response (Failure):', res);
           console.log('Add API Response:', res);
           setTimeout(() => {
             this.snackBar.open(res.Reason, 'Close', {

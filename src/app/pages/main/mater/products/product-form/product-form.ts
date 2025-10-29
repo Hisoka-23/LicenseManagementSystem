@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OnInit, inject, signal } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -23,8 +22,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { debounceTime, map, switchMap, take } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-product-form',
@@ -247,7 +244,6 @@ export class ProductForm implements OnInit {
           this.modalRef.hide(); // <-- Close modal ONLY on success
         } else {
           // *** API FAILURE/DUPLICATE (Server-side check) ***
-          console.log('Add API Response (Failure):', res);
           console.log('Add API Response:', res);
           setTimeout(() => {
             this.snackBar.open(res.Reason, 'Close', {

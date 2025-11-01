@@ -53,41 +53,34 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./product-form.css'],
 })
 export class ProductForm implements OnInit {
-  form!: FormGroup;
+
+  form!: FormGroup; // reative (FormGroup) instance for the product form
 
   //this method product.ts
-  @Output() formSubmitted = new EventEmitter<void>();
+  @Output() formSubmitted = new EventEmitter<void>(); //an event emitter to notify parent when form is submitted successfully
 
-  //date
-  datePickerConfig!: Partial<BsDatepickerConfig>;
+  //datepicker config
+  datePickerConfig!: Partial<BsDatepickerConfig>; //configuration for ngx-bootstrap datepicker
 
-  //inject date Pipi
-  private datePipe = inject(DatePipe);
+  //datePipe
+  private datePipe = inject(DatePipe);//injected via the inject() helper (alternative to custructor DI).
 
   // loadingIndicator
-  loadingIndicator = signal<boolean>(false);
-  //normalInputfilde: TemplateRef<NgIfContext<boolean>> | null | undefined;
+  loadingIndicator = signal<boolean>(false); //an Angular signal to track loading UI state (signal API used)
 
-  // loading but not working
-  setLoadingIndicator(value: boolean) {
+  //setLoadingIndiator()
+  setLoadingIndicator(value: boolean) { // small helper to set the signal.
     this.loadingIndicator.set(value);
   }
 
-  isEditMode = false;
+  //isEditMode
+  isEditMode = false;//boolean flag to skip duplicate check when editing an existing product.
 
-  //ConfigColumn = signal<ConfigColumn[]>([]);
+  //ConfigColumn
+  ConfigColumn: ConfigColumn[] = [];//array to holding the configuration describing dynamic controls.
 
-  ConfigColumn: ConfigColumn[] = [];
-
-  comboList: { label: string; value: string }[] = [];
-
-  // get configration() {
-  //   return this.productService.productConfigColumnApiResponse;
-  // }
-
-  // get comboList1() {
-  //   return this.productService.productComboListApiRespose;
-  // }
+  //comboList
+  comboList: { label: string; value: string }[] = [];//list mapped form API to {label, value} pairs used in select controls.
 
   constructor(
     private fb: FormBuilder,
@@ -95,13 +88,16 @@ export class ProductForm implements OnInit {
     private snackBar: MatSnackBar,
     public modalRef: BsModalRef
   ) {}
+  /**
+   * injects FormBuilder, ProductService, MatSnackBar and model reference to use throughout the component.
+   * modalRef is public because you call .hide() from inside the component.
+   */
 
   ngOnInit(): void {
-    this.initForm();
 
-    // this.form = this.fb.group({});
+    this.initForm();//create an empty form group.
 
-    this.datePickerConfig = {
+    this.datePickerConfig = { //Datepicker configuration is set (format + theme class)
       containerClass: 'theme-blue',
       dateInputFormat: 'DD-MM-YYYY',
     };
@@ -115,106 +111,101 @@ export class ProductForm implements OnInit {
           value: item.DataValue,
         }));
 
-        //this.comboList = res?.ComboList || [];
+        this.initFormControls();//dynamically add form controls based on configuration. I am using this for add validation into form
 
-        this.initFormControls();
       },
-      error: (err) => console.error('API', Error),
+
+      error: (err) => console.error('API', Error),//log any errors during API call
+
     });
   }
 
   /* Initialize form */
-  initForm(): void {
+  initForm(): void {//Initialize an empty form group. Controals / validators will be added dynamically later.
     this.form = this.fb.group({});
-
-    // this.form = new FormGroup({});
-    // this.ConfigColumn.forEach((col: any) => {
-    //   this.form.addControl(col.Column_Name, new FormControl(null)); // important
-    // });
   }
 
   /* Dynamically add controls based on config */
   initFormControls(): void {
-    this.ConfigColumn.forEach((col: any) => {
-      if (col.Column_Status === 'Show') {
+    this.ConfigColumn.forEach((col: any) => {//Loops through each ConfigColumn item
+      if (col.Column_Status === 'Show') { //Only process columns with Column_Status === 'Show'
+
         const validators = [];
 
         let initialValue: any;
 
-        if (col.IsRequired === 'Y') validators.push(Validators.required);
-        if (col.Min_Length) validators.push(Validators.minLength(Number(col.Min_Length)));
-        if (col.Max_Length) validators.push(Validators.maxLength(Number(col.Max_Length)));
+        if (col.IsRequired === 'Y') validators.push(Validators.required);//Add required validator if IsRequired is 'Y'
+        if (col.Min_Length) validators.push(Validators.minLength(Number(col.Min_Length))); //Add minLength validator if Min_Length is specified
+        if (col.Max_Length) validators.push(Validators.maxLength(Number(col.Max_Length))); //Add maxLength validator if Max_Length is specified
 
-        // *** APPLY DUPLICATE VALIDATION HERE ***
-        // NOTE: Replace 'ProductName' with the actual Column_Name if different
+        // Add custom duplicate validator for ProductName field
         if (col.Column_Name === 'ProductName') {
-          // Bind 'this' to the validator function so it can access 'productService'
           validators.push(this.duplicateProductNameValidator.bind(this));
         }
-        // ***************************************
-
-        if (col.ColumnType === 'List') {
+        
+        if (col.ColumnType === 'List') {//For List type columns, initialize with empty array for list we need to initialize with 'null' and for other  input types with empty string
           initialValue = null;
         } else {
           initialValue = '';
         }
 
-        // Only add the control if it doesn't exist already
-        if (!this.form.contains(col.Column_Name)) {
+        if (!this.form.contains(col.Column_Name)) {//adds the control only if it doesn't already exist
           this.form.addControl(col.Column_Name, this.fb.control(initialValue, validators));
         }
+
       }
     });
   }
-
-  // Inside ProductForm class
-
-  // ... (existing properties and constructor)
-
-  /**
-   * Custom synchronous validator to check for duplicate product names
-   * client-side against the currently loaded product list.
-   */
+  
+  // Custom validator to check for duplicate ProductName
   duplicateProductNameValidator(control: AbstractControl): { [key: string]: any } | null {
-    // Ensure the product list is available and we are not in edit mode
+    
+    //Skips validation when isEditMode is true (so editing existing product won't be blocked by this)
     if (this.isEditMode || !this.productService.productApiResponse) {
       return null;
     }
 
+    //Skips if control is empty (other validators will handle required check)
     const productName = control.value ? (control.value as string).trim().toLowerCase() : '';
-
+  
     if (!productName) {
-      return null; // Don't validate if empty (Validators.required handles this)
+      return null; 
     }
 
+    //Normalize and input and compares to product names in the existing list(productApiResponse)
     const isDuplicate = this.productService.productApiResponse.some(
       (product) => (product.ProductName as string)?.trim().toLowerCase() === productName
     );
 
+    //Returns validation error object if duplicate found, otherwise null
     return isDuplicate ? { duplicateProductName: true } : null;
+
   }
 
-  // ... (rest of the class)
-
-  // Submit form for "Add" action only
+  // Submit form for "Add" action 
   onAdd(): void {
+
     console.log('Submitting button clicked...!!');
 
-    if (this.form.invalid) {
-      //Mark all fields as touched so validation errors show
-      this.form.markAllAsTouched();
+    if (this.form.invalid) {//Starts by checking if the form is valid
+      
+      this.form.markAllAsTouched();//markAllAsTouched() shows error in the UI.
 
       // Check specifically for client-side duplicate validation error
       if (this.form.get('ProductName')?.hasError('duplicateProductName')) {
+
         this.snackBar.open('Product Name already exists!', 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
           panelClass: ['snackbar-error'],
         });
+
         return; // Stop processing and keep the modal open
+
       }
 
+      // General invalid form error
       this.snackBar.open('Please fill all required fields!', 'Close', {
         duration: 2000,
         horizontalPosition: 'center',
@@ -223,17 +214,20 @@ export class ProductForm implements OnInit {
       });
 
       return;
+
     }
 
     console.log('Form is Valid - proceeding to api call...!!');
 
-    this.setLoadingIndicator(true);
+    this.setLoadingIndicator(true);//shows loading indicator
 
-    const formValue = this.form.value;
+    const formValue = this.form.value;//Calls the productService.saveProduct() to submit the form data to the API
 
     this.productService.saveProduct('Add', formValue).subscribe({
+
       next: (res: any) => {
-        if (res.Code === '0') {
+
+        if (res.Code === '0') {//On success
           this.snackBar.open(res.Reason, '', {
             duration: 3000,
             horizontalPosition: 'center',
@@ -241,11 +235,11 @@ export class ProductForm implements OnInit {
             panelClass: ['snackbar-success'],
           });
           this.formSubmitted.emit();
-          this.modalRef.hide(); // <-- Close modal ONLY on success
+          this.modalRef.hide(); // Close modal only on success
         } else {
-          // *** API FAILURE/DUPLICATE (Server-side check) ***
+          //API fail (Server-side check)
           console.log('Add API Response:', res);
-          setTimeout(() => {
+          setTimeout(() => {//delay to ensure snackbar displays correctly
             this.snackBar.open(res.Reason, 'Close', {
               duration: 3000,
               horizontalPosition: 'center',
@@ -253,11 +247,14 @@ export class ProductForm implements OnInit {
               panelClass: ['snackbar-success'],
             });
           }, 400);
-          this.form.reset();
-          this.productService.loadProducts();
-          this.formSubmitted.emit();
+
+          this.form.reset();//reset the form
+          this.productService.loadProducts(); //reload the product list
+          this.formSubmitted.emit();//notify parent component
+
         }
       },
+
       error: (err) => {
         console.error('Add API Error:', err);
         this.snackBar.open(err.Reason, '', {
@@ -267,11 +264,16 @@ export class ProductForm implements OnInit {
           panelClass: ['snackbar-error'],
         });
       },
+
       complete: () => this.setLoadingIndicator(false),
+
     });
+
   }
 
+  // Handle checkbox changes for multi-select lists
   onCheckboxChange(event: any, controlName: string) {
+
     const control = this.form.get(controlName);
     const selectedValues = control?.value || [];
 
@@ -283,5 +285,7 @@ export class ProductForm implements OnInit {
     }
 
     control?.setValue(selectedValues);
+
   }
+
 }

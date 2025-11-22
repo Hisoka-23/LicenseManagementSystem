@@ -49,6 +49,7 @@
     "sweetalert2": "^11.26.1",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
+    "xlsx-populate": "^1.21.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
@@ -64,5 +65,11 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.2"
+  },
+  "compilerOptions": {
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types"
+    ]
   }
 }

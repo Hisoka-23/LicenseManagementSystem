@@ -17,7 +17,8 @@
             "file-saver",
             "lodash.isequal",
             "quill-delta",
-            "sweetalert2"
+            "sweetalert2",
+            "xlsx-populate"
           ],
             "browser": "src/main.ts",
             "polyfills": [
@@ -114,5 +115,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

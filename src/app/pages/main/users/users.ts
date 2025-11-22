@@ -6,10 +6,12 @@ import { USERS } from '../../../mock-data/users.mock';
 import { User } from '../../../interface/user';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver'
+//import * as XLSX from 'xlsx';
+//import { saveAs } from 'file-saver'
 import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { EditUser } from "./components/edit-user/edit-user";
+import { Workbook, FileFormatType } from "@aspose/cells";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: 'app-users',
@@ -21,9 +23,9 @@ import { EditUser } from "./components/edit-user/edit-user";
     MatButtonModule,
     MatIconModule,
     ModalModule,
-    EditUser
-],
-  providers:[BsModalService],
+    EditUser,
+  ],
+  providers: [BsModalService],
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
@@ -99,45 +101,78 @@ export class Users implements OnInit {
     console.log('Sort Event: ', event);
   }
 
-  exportToExcel() {
+  // exportToExcel() {
 
-    const fields = ['id', 'name', 'email', 'phone', 'address'];
+  //   const fields = ['id', 'name', 'email', 'phone', 'address'];
 
-    const values = this.users();
+  //   const values = this.users();
 
-    const sheetName = 'users';
+  //   const sheetName = 'users';
 
-    const data = this.prepareDataInExcel(values, fields);
+  //   const data = this.prepareDataInExcel(values, fields);
 
-    const headers = fields.reduce((acc, field) => {
-      // acc[field] = field;
-      acc[field] = field.charAt(0).toUpperCase() + field.slice(1);
-      return acc;
-    }, {} as Record<string, string>);
+  //   const headers = fields.reduce((acc, field) => {
+  //     // acc[field] = field;
+  //     acc[field] = field.charAt(0).toUpperCase() + field.slice(1);
+  //     return acc;
+  //   }, {} as Record<string, string>);
 
-    const WorkSheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([headers, ...data], {
-      // header: Object.keys(data[0]),
-      // header: Object.values(headers),
-      skipHeader: true,
-    });
+  //   const WorkSheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([headers, ...data], {
+  //     // header: Object.keys(data[0]),
+  //     // header: Object.values(headers),
+  //     skipHeader: true,
+  //   });
 
-    const WorkBook: XLSX.WorkBook = {
-      Sheets: { [sheetName]: WorkSheet },
-      SheetNames: [sheetName],
-    };
+  //   const WorkBook: XLSX.WorkBook = {
+  //     Sheets: { [sheetName]: WorkSheet },
+  //     SheetNames: [sheetName],
+  //   };
 
-    const excelBuffer = XLSX.write(WorkBook, {
-      bookType: 'xlsx',
-      type: 'array',
-    });
+  //   const excelBuffer = XLSX.write(WorkBook, {
+  //     bookType: 'xlsx',
+  //     type: 'array',
+  //   });
 
-    const file = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
-    });
 
-    saveAs(file, 'users.xlsx');
 
-  }
+  //   const file = new Blob([excelBuffer], {
+  //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+  //   });
+
+  //   saveAs(file, 'users.xlsx');
+
+  // }
+
+  async exportToExcel() {
+
+  const workbook = new Workbook();
+  const sheet = workbook.getWorksheets().get(0);
+
+  // Add header
+  const fields = ['id', 'name', 'email', 'phone', 'address'];
+  fields.forEach((header, i) => sheet.getCells().get(0, i).putValue(header));
+
+  // Add data
+  this.users().forEach((user, rowIndex) => {
+    sheet.getCells().get(rowIndex + 1, 0).putValue(user.id);
+    sheet.getCells().get(rowIndex + 1, 1).putValue(user.name);
+    sheet.getCells().get(rowIndex + 1, 2).putValue(user.email);
+    sheet.getCells().get(rowIndex + 1, 3).putValue(user.phone);
+    sheet.getCells().get(rowIndex + 1, 4).putValue(user.address);
+  });
+
+  // 🔐 REAL EXCEL PASSWORD (Open File Protection)
+  workbook.getSettings().getPassword().setPassword("12345");
+
+  // Save
+  const buffer = await workbook.save(FileFormatType.XLSX);
+
+  saveAs(
+    new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
+    "protected_users.xlsx"
+  );
+
+}
 
   prepareDataInExcel(values: User[], fields: string[]) {
     const dataExport = values.map((value) => {
@@ -158,33 +193,34 @@ export class Users implements OnInit {
 
   }
 
-  deleteItem(user: User){
+
+  deleteItem(user: User) {
     this.temp.update((users) => users.filter((usr) => usr.id !== user.id));
     this.users.update((users) => users.filter((usr) => usr.id !== user.id));
   }
 
-  openUserFormModal(template: TemplateRef<void>, User?: User){
+  openUserFormModal(template: TemplateRef<void>, User?: User) {
 
     this.updateItem.set(User ?? null);
 
     this.modalRef.set(this.modalService.show(template, { class: 'modal-lg' }));
   }
 
-  closeUserModal(){
+  closeUserModal() {
     this.modalRef()?.hide();
   }
 
-  addUser(user: User){
+  addUser(user: User) {
     this.temp.update((users) => [user, ...users]);
     this.users.update((users) => [user, ...users]);
     this.closeUserModal();
   }
 
-  updateUser(updateUserData: User){
-    this.temp.update((users) => 
+  updateUser(updateUserData: User) {
+    this.temp.update((users) =>
       users.map((user) => (user.id == updateUserData.id ? updateUserData : user))
     );
-    this.users.update((users) => 
+    this.users.update((users) =>
       users.map((user) => (user.id == updateUserData.id ? updateUserData : user))
     );
     this.closeUserModal();
